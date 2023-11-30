@@ -22,7 +22,6 @@ public class ConsumableDao extends ItemDao{
     }
 
     public Consumable create(Consumable consumable) throws SQLException {
-        // Insert into the superclass table first.
         create(new Item(consumable.getItemId(), consumable.getItemName(),
                 consumable.getMaxStackSize(), consumable.getVendorPrice(), consumable.getCanBeSold()));
 
@@ -50,10 +49,7 @@ public class ConsumableDao extends ItemDao{
         }
     }
 
-    /**
-     * Update the itemLevel of the Consumable instance.
-     * This runs a UPDATE statement.
-     */
+
     public Consumable updateItemLevel(Consumable consumable, int newItemLevel) throws SQLException {
         String updateConsumable = "UPDATE Consumable SET itemLevel=? WHERE itemId=?;";
         Connection connection = null;
@@ -64,7 +60,6 @@ public class ConsumableDao extends ItemDao{
             updateStmt.setInt(1, newItemLevel);
             updateStmt.setInt(2,consumable.getItemId());
             updateStmt.executeUpdate();
-            // Update the blogPost param before returning to the caller.
             consumable.setItemLevel(newItemLevel);
             return consumable;
         } catch (SQLException e) {
@@ -80,10 +75,7 @@ public class ConsumableDao extends ItemDao{
         }
     }
 
-    /**
-     * Delete the Consumable instance.
-     * This runs a DELETE statement.
-     */
+
     public Consumable delete(Consumable consumable) throws SQLException {
         String deleteConsumable = "DELETE FROM Consumable WHERE itemId=?;";
         Connection connection = null;
@@ -94,9 +86,6 @@ public class ConsumableDao extends ItemDao{
             deleteStmt.setInt(1, consumable.getItemId());
             deleteStmt.executeUpdate();
 
-            // Then also delete from the superclass.
-            // Note: due to the fk constraint (ON DELETE CASCADE), we could simply call
-            // super.delete() without even needing to delete from Consumable first.
             super.delete(consumable);
 
             return null;
@@ -113,8 +102,7 @@ public class ConsumableDao extends ItemDao{
         }
     }
 
-    public Consumable getConsumableById(int itemId) throws SQLException {
-        // To build an Administrator object, we need the Persons record, too.
+    public Consumable getConsumablesById(int itemId) throws SQLException {
         String selectConsumable =
                 "SELECT Consumable.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,itemLevel,description " +
                         "FROM Consumable INNER JOIN Item " +
