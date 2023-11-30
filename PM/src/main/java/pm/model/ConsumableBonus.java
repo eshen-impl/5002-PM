@@ -5,28 +5,24 @@ import java.math.BigDecimal;
 
 
 public class ConsumableBonus {
-    protected int itemId;
+    protected Item item;
     protected String attribute;
     protected BigDecimal bonusPercentage;
     protected long bonusCap;
-    
-  
 
-	
-    public ConsumableBonus(int itemId, String attribute, BigDecimal bonusPercentage, long bonusCap) {
-        this.itemId = itemId;
+    public ConsumableBonus(Item item, String attribute, BigDecimal bonusPercentage, long bonusCap) {
+        this.item = item;
         this.attribute = attribute;
         this.bonusPercentage = bonusPercentage;
         this.bonusCap = bonusCap;
     }
 
-
-    public int getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public String getAttribute() {

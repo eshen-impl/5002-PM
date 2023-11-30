@@ -1,6 +1,7 @@
 package pm.model;
 
 
+
 public class Item {
 	protected int itemId;
 	protected String itemName;
@@ -103,7 +104,7 @@ public class Item {
 
 
 
-	public boolean isCanBeSold() {
+	public boolean getCanBeSold() {
 		return canBeSold;
 	}
 
