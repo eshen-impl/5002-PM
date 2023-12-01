@@ -29,6 +29,12 @@ public class GearJob {
 	public void setJob(Job job) {
 		this.job = job;
 	}
+
+	@Override
+	public String toString() {
+		return "GearJob [gear=" + gear + ", job=" + job + "]";
+	}
+	
 	
 
 }

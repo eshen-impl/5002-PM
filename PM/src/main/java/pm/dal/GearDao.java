@@ -34,16 +34,10 @@ public class GearDao extends EquippableDao {
 
 	public Gear create(Gear gear) throws SQLException {
 		// Insert into the superclass table first.
-		Integer item_id = gear.getItemID();
-		// Check if the Equippable record exists
-		Equippable existingEquippable = getEquippableByItemID(item_id);
-		if (existingEquippable == null) {
-			// If Equippable record doesn't exist, create a new one
-			existingEquippable = super.create(new Equippable(gear.getItemName(),gear.getMaxStackSize(),gear.getVendorPrice(),
-	                gear.getCanBeSold(),gear.getItemLevel(),gear.getSlotType(),gear.getRequiredJobLevel()));
-	        item_id = existingEquippable.getItemID();
-			gear.setItemID(item_id);
-		}
+		
+		
+		Equippable equippable = create((Equippable) gear);
+
 
 		String insertGear = "INSERT INTO Gear(itemID,defenseRating,magicDefenseRating) VALUES(?,?,?);";
 		Connection connection = null;
@@ -51,7 +45,7 @@ public class GearDao extends EquippableDao {
 		try {
 			connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertGear);
-            insertStmt.setInt(1, item_id);
+            insertStmt.setInt(1, equippable.getItemId());
             insertStmt.setDouble(2, gear.getDefenseRating());
             insertStmt.setDouble(3, gear.getMagicDefenseRating());
 
@@ -77,11 +71,8 @@ public class GearDao extends EquippableDao {
 
 	public Gear getGearByItemID(Integer itemID) throws SQLException {
 	    String selectGear =
-	            "SELECT Gear.itemID AS ItemID, itemName, maxStackSize, vendorPrice, canBeSold, itemLevel, slotType, requiredJobLevel,defenseRating,magicDefenseRating " +
-	            "FROM Weapon " +
-	            "INNER JOIN Equippable ON Gear.itemID = Equippable.itemID " +
-	            "INNER JOIN Item ON Equippable.itemID = Item.itemID " +
-	            "WHERE Gear.itemID = ?;";
+	            "SELECT Gear.itemId AS itemId, itemName, maxStackSize, vendorPrice, canBeSold, itemLevel, slotType, requiredJobLevel,defenseRating,magicDefenseRating " +
+	            "FROM Gear INNER JOIN Equippable ON Gear.itemId = Equippable.itemId INNER JOIN Item ON Equippable.itemId = Item.itemId WHERE Gear.itemId = ?;";
 	    Connection connection = null;
 	    PreparedStatement selectStmt = null;
 	    ResultSet results = null;
@@ -91,13 +82,13 @@ public class GearDao extends EquippableDao {
 	        selectStmt.setInt(1, itemID);
 	        results = selectStmt.executeQuery();
 	        if (results.next()) {
-	            Integer resultItemID = results.getInt("ItemID");
+	            Integer resultItemID = results.getInt("itemId");
 	            String itemName = results.getString("itemName");
 	            Integer maxStackSize = results.getInt("maxStackSize");
-	            BigDecimal vendorPrice = results.getBigDecimal("vendorPrice");
+	            Integer vendorPrice = results.getInt("vendorPrice");
 	            Boolean canBeSold = results.getBoolean("canBeSold");
 	            Integer itemLevel = results.getInt("itemLevel");
-	            Equippable.SlotType slotType = Equippable.SlotType.valueOf(results.getString("slotType"));
+	            String slotType = results.getString("slotType");
 	            Integer requiredJobLevel = results.getInt("requiredJobLevel");
 	            Double defenseRating = results.getDouble("defenseRating");
 	            Double magicDefenseRating = results.getDouble("magicDefenseRating");
@@ -135,11 +126,11 @@ public class GearDao extends EquippableDao {
 		try {
 			connection = connectionManager.getConnection();
 			deleteStmt = connection.prepareStatement(deleteGear);
-			deleteStmt.setInt(1, gear.getItemID());
+			deleteStmt.setInt(1, gear.getItemId());
 			Integer affectedRows = deleteStmt.executeUpdate();
 
 			if (affectedRows == 0) {
-				throw new SQLException("No records available to delete for itemID=" + gear.getItemID());
+				throw new SQLException("No records available to delete for itemID=" + gear.getItemId());
 			}	
 			//I want to delete only the Gear records for a given Gear.
 

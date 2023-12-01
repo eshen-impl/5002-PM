@@ -26,8 +26,11 @@ public class Weapon extends Equippable {
 		this.associatedJob = associatedJob;
 	}
 
-	public Weapon(Integer itemID,double damageDone, double autoAttack, double attackDelay, Job associatedJob) {
-		super(itemID);
+	public Weapon(String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel,
+			double damageDone, double autoAttack, double attackDelay, Job associatedJob) {
+		super(itemName, maxStackSize, vendorPrice, canBeSold,
+			  itemLevel, slotType, requiredJobLevel);
 		this.damageDone = damageDone;
 		this.autoAttack = autoAttack;
 		this.attackDelay = attackDelay;
@@ -70,5 +73,15 @@ public class Weapon extends Equippable {
 
 	public void setAssociatedJob(Job associatedJob) {
 		this.associatedJob = associatedJob;
+	}
+
+	@Override
+	public String toString() {
+		return "Weapon [damageDone=" + damageDone + ", autoAttack=" + autoAttack + ", attackDelay=" + attackDelay
+				+ ", associatedJob=" + associatedJob + ", itemLevel=" + itemLevel + ", slotType=" + slotType
+				+ ", requiredJobLevel=" + requiredJobLevel + ", itemId=" + itemId + ", itemName=" + itemName
+				+ ", maxStackSize=" + maxStackSize + ", vendorPrice=" + vendorPrice + ", canBeSold=" + canBeSold + "]";
 	}	
+	
+	
 }
