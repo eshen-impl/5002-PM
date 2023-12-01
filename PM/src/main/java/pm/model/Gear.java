@@ -15,8 +15,8 @@ public class Gear extends Equippable {
 	protected double magicDefenseRating;
 
 
-	public Gear(Integer itemID, String itemName, Integer maxStackSize, BigDecimal vendorPrice, Boolean canBeSold, 
-			Integer itemLevel, SlotType slotType, Integer requiredJobLevel,
+	public Gear(int itemID, String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel,
 			double defenseRating, double magicDefenseRating) {
 		super(itemID, itemName, maxStackSize, vendorPrice, canBeSold,
 			  itemLevel, slotType, requiredJobLevel);

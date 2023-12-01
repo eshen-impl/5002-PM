@@ -1,3 +1,4 @@
+package pm.model;
 import java.util.Objects;
 
 public class CharacterCurrency {

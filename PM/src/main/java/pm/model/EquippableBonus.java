@@ -3,16 +3,12 @@ package pm.model;
 
 public class EquippableBonus {
 	protected Item itemID;
-	protected Attribute attribute;
+	protected String attribute;
 	protected double bonusValue;
 
-	public enum Attribute {
-		maxHP, strength, dexterity, vitality, intelligence, mind, criticalHit, determination, directHitRate, defense,
-		magicDefense, attackPower, skillSpeed, attackMagicPotency, healingMagicPotency, spellSpeed, averageItemLevel,
-		tenacity, piety
-	}
 
-	public EquippableBonus(Item itemID, Attribute attribute, double bonusValue) {
+
+	public EquippableBonus(Item itemID, String attribute, double bonusValue) {
 		this.itemID = itemID;
 		this.attribute = attribute;
 		this.bonusValue = bonusValue;
@@ -22,12 +18,12 @@ public class EquippableBonus {
 		this.itemID = itemID;
 	}
 
-	public EquippableBonus(Item itemID, Attribute attribute) {
+	public EquippableBonus(Item itemID, String attribute) {
 		this.itemID = itemID;
 		this.attribute = attribute;
 	}
 
-	public EquippableBonus(Attribute attribute) {
+	public EquippableBonus(String attribute) {
 		this.attribute = attribute;
 	}
 
@@ -44,11 +40,11 @@ public class EquippableBonus {
 		this.itemID = itemID;
 	}
 
-	public Attribute getAttribute() {
+	public String getAttribute() {
 		return attribute;
 	}
 
-	public void setAttribute(Attribute attribute) {
+	public void setAttribute(String attribute) {
 		this.attribute = attribute;
 	}
 

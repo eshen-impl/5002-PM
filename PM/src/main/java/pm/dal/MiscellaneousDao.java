@@ -22,8 +22,8 @@ public class MiscellaneousDao extends ItemDao{
     }
 
     public Miscellaneous create(Miscellaneous miscellaneous) throws SQLException {
-        create(new Item(miscellaneous.getItemId(), miscellaneous.getItemName(),
-                miscellaneous.getMaxStackSize(), miscellaneous.getVendorPrice(), miscellaneous.getCanBeSold()));
+    	Item item = create((Item) miscellaneous);
+    	
 
         String insertMiscellaneous = "INSERT INTO Miscellaneous(itemId, description) VALUES(?,?);";
         Connection connection = null;
@@ -31,7 +31,7 @@ public class MiscellaneousDao extends ItemDao{
         try {
             connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertMiscellaneous);
-            insertStmt.setInt(1, miscellaneous.getItemId());
+            insertStmt.setInt(1, item.getItemId());
             insertStmt.setString(2, miscellaneous.getDescription());
             insertStmt.executeUpdate();
             return miscellaneous;
@@ -104,10 +104,8 @@ public class MiscellaneousDao extends ItemDao{
 
     public Miscellaneous getMiscellaneoussById(int itemId) throws SQLException {
         String selectMiscellaneous =
-                "SELECT Miscellaneous.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,description " +
-                        "FROM Miscellaneous INNER JOIN Item " +
-                        "  ON Miscellaneous.itemId = Item.itemId " +
-                        "WHERE Miscellaneous.itemId=?;";
+                "SELECT Miscellaneous.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,`description` " +
+                        "FROM Miscellaneous INNER JOIN Item ON Miscellaneous.itemId = Item.itemId WHERE Miscellaneous.itemId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
@@ -146,17 +144,16 @@ public class MiscellaneousDao extends ItemDao{
             throws SQLException {
         List<Miscellaneous> miscellaneous_ = new ArrayList<>();
         String selectMiscellaneous =
-                "SELECT Miscellaneous.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,itemLevel,description " +
-                        "FROM Miscellaneous INNER JOIN Item " +
-                        "  ON Miscellaneous.itemId = Item.itemId " +
-                        "WHERE Miscellaneous.description =?;";
+                "SELECT Miscellaneous.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,`description` " +
+                        "FROM Miscellaneous INNER JOIN Item ON Miscellaneous.itemId = Item.itemId WHERE Miscellaneous.`description` like ?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
         try {
             connection = connectionManager.getConnection();
             selectStmt = connection.prepareStatement(selectMiscellaneous);
-            selectStmt.setString(1, description);
+            String query = "%" + description + "%";
+            selectStmt.setString(1, query);
             results = selectStmt.executeQuery();
             while(results.next()) {
                 int itemId = results.getInt("itemId");
@@ -164,7 +161,8 @@ public class MiscellaneousDao extends ItemDao{
                 int maxStackSize = results.getInt("maxStackSize");
                 int vendorPrice = results.getInt(("vendorPrice"));
                 boolean canBeSold = results.getBoolean("canBeSold");
-                Miscellaneous miscellaneous = new Miscellaneous(itemId,itemName,maxStackSize,vendorPrice,canBeSold,description);
+                String fullDescription = results.getString("description");
+                Miscellaneous miscellaneous = new Miscellaneous(itemId,itemName,maxStackSize,vendorPrice,canBeSold,fullDescription);
                 miscellaneous_.add(miscellaneous);
             }
         } catch (SQLException e) {

@@ -15,8 +15,8 @@ public class Weapon extends Equippable {
 	protected double attackDelay;
 	protected Job associatedJob;
 
-	public Weapon(Integer itemID, String itemName, Integer maxStackSize, BigDecimal vendorPrice, Boolean canBeSold, 
-			Integer itemLevel, SlotType slotType, Integer requiredJobLevel,
+	public Weapon(int itemID, String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel,
 			double damageDone, double autoAttack, double attackDelay, Job associatedJob) {
 		super(itemID, itemName, maxStackSize, vendorPrice, canBeSold,
 			  itemLevel, slotType, requiredJobLevel);
