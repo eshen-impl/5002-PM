@@ -29,10 +29,60 @@ public class Driver {
 		WeaponDao weaponDao = WeaponDao.getInstance();
 		GearDao gearDao = GearDao.getInstance();
 		EquippableBonusDao equippableBonusDao = EquippableBonusDao.getInstance();
-		
-		
-		
-	
+		ConsumableDao consumableDao = ConsumableDao.getInstance();
+		MiscellaneousDao miscellaneousDao = MiscellaneousDao.getInstance();
+		ConsumableBonusDao consumableBonusDao = ConsumableBonusDao.getInstance();
+
+		// test ItemDao
+		Item item = new Item("TestItem", 10, 100, true);
+		item = itemDao.create(item);
+		Item item1 = itemDao.getItemById(1);
+		System.out.format("Item : id: %s name:%s mss:%s vp:%s cbs:%s \n",item1.getItemId().item1.getItemName(),item1.getMaxStackSize(),item1.getVendorPrice(), item1.getCanBeSold() );
+		List<Item> items = itemDao.getItemsByMaxStackSize(10);
+		for (Item i: items) {
+			System.out.format("items: name:%s mss:%s vp:%s cbs:%s \n",
+					i.getItemName(),i.getMaxStackSize(),i.getVendorPrice(), i.getCanBeSold());
+		};
+
+		// test ConsumableDao
+		Consumable consumable1 = new Consumable(2,"consumable1", 5, 50, true, 1, "Test Description");
+		Consumable consumable2 = new Consumable(3,"consumable2", 5, 100, true, 1, "Test Description1");
+		consumable1 = consumableDao.create(consumable1);
+		consumable2 = consumableDao.create(consumable2);
+		Consumable consumable_ = consumableDao.getConsumablesById(2);
+		System.out.format("cons : id:%s name:%s level:%s dp:%s \n", consumable_.getItemId(),consumable_.getItemName(),consumable_.getItemLevel(),consumable_.getDescription());
+		List<Consumable> consumables = consumableDao.getConsumableByItemLevel(1);
+		for (Consumable cons:consumables) {
+			System.out.format("consList : id:%s name:%s level:%s dp:%s \n", cons.getItemId(),cons.getItemName(),cons.getItemLevel(),cons.getDescription());
+		}
+
+		// test Miscellaneous
+		Miscellaneous miscellaneous1 = new Miscellaneous(4,"Miscellaneous1", 5, 50, true, "Description1");
+		Miscellaneous miscellaneous2 = new Miscellaneous(5,"Miscellaneous2", 5, 75, true, "Description2");
+		Miscellaneous miscellaneous3 = new Miscellaneous(6,"Miscellaneous3", 5, 100, true, "Description1");
+		miscellaneous1 = miscellaneousDao.create(miscellaneous1);
+		miscellaneous2 = miscellaneousDao.create(miscellaneous2);
+		miscellaneous3 = miscellaneousDao.create(miscellaneous3);
+
+		Miscellaneous miscellaneous = miscellaneousDao.getMiscellaneoussById(5);
+		System.out.format("mis: id:%s name:%s dp:%s \n",miscellaneous.getItemId(),miscellaneous.getItemName(),miscellaneous.getDescription());
+		List<Miscellaneous> miscellaneousList = miscellaneousDao.getMiscellaneousByDescription("Description1");
+		for (Miscellaneous mis:miscellaneousList) {
+			System.out.format("misList : id:%s name:%s dp:%s \n", mis.getItemId(),mis.getItemName(),mis.getDescription());
+		}
+
+		// test ConsumableBonus
+		Item item_ = new Item("N", 5, 50, true);
+		item_ = itemDao.create(item_);
+		ConsumableBonus consumableBonus = new ConsumableBonus(item_, "Strength", BigDecimal.valueOf(0.1), 100);
+		consumableBonus = consumableBonusDao.create(consumableBonus);
+		ConsumableBonus consumableBonus_ = consumableBonusDao.getConsumableBonusByItemAttribute(item_, "Strength");
+		System.out.format("bonus: id:%s attr:%s percentage:%s \n",consumableBonus_.getItem().getItemId(),consumableBonus_.getAttribute(),consumableBonus_.getBonusPercentage());
+		List<ConsumableBonus> consumableBonuses = consumableBonusDao.getConsumableBonusesByBonusCap(100);
+		for (ConsumableBonus consBonus: consumableBonuses) {
+			System.out.format("bonuses: id:%s attr:%s percentage:%s \n", consBonus.getItem().getItemId(), consBonus.getAttribute(), consBonus.getBonusPercentage());
+		}
+
 		// test PlayerDao
 		Player newPlayer = new Player( "katy", "katy@sina.com", true);
 		newPlayer = playerDao.create(newPlayer);
@@ -211,7 +261,9 @@ public class Driver {
 		} catch (SQLException e) {
 		    System.out.println("Error occurred during deletion: " + e.getMessage());
 		}
+
+
 }
 	
 	
-}
+

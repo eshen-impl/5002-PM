@@ -149,7 +149,7 @@ public class ConsumableBonusDao {
     }
 
 
-    public List<ConsumableBonus> getConsumableBonusByBonusCap(long bonusCap) throws SQLException {
+    public List<ConsumableBonus> getConsumableBonusesByBonusCap(long bonusCap) throws SQLException {
         List<ConsumableBonus> consumableBonuses = new ArrayList<>();
         String selectConsumableBonus =
                 "SELECT itemId,attribute,bonusPercentage,bonusCap " +
