@@ -155,7 +155,7 @@ public class ItemDao {
     }
 
 
-    public List<Item> getItemsFromMaxStackSize(int maxStackSize) throws SQLException {
+    public List<Item> getItemsByMaxStackSize(int maxStackSize) throws SQLException {
         List<Item> items = new ArrayList<>();
         String selectItem =
                 "SELECT itemId,itemName,maxStackSize,vendorPrice,canBeSold FROM Item WHERE maxStackSize=?;";
