@@ -1,4 +1,4 @@
-package milestone.model;
+package pm.model;
 
 public class CharacterAttribute {
 protected Character character;

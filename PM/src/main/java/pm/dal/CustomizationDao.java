@@ -1,4 +1,4 @@
-package milestone.dal;
+package pm.dal;
 
 
 import java.sql.Connection;
