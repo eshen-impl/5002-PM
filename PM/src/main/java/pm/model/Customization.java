@@ -5,26 +5,29 @@ public class Customization {
 	protected Item item;
 	protected Color color;
 	protected float condition;
+	protected IsHighQuality isHighQuality;
 	protected Character character;
 	
 	public enum isHighQuality{
 		High,Normal
 	}
 
-	public Customization(int customizationId, Item item, Color color, float condition, Character character) {
+	public Customization(int customizationId, Item item, Color color, float condition, IsHighQuality isHighQUality,Character character) {
 		
 		this.customizationId = customizationId;
 		this.item = item;
 		this.color = color;
 		this.condition = condition;
+		this.isHighQuality = isHighQuality;
 		this.character = character;
 	}
 
-	public Customization(Item item, Color color, float condition, Character character) {
+	public Customization(Item item, Color color, float condition, IsHighQuality isHighQUality,Character character) {
 
 		this.item = item;
 		this.color = color;
 		this.condition = condition;
+		this.isHighQuality = isHighQuality;
 		this.character = character;
 	}
 
@@ -72,7 +75,13 @@ public class Customization {
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
-	
+	public IsHighQuality getIsHighQuality() {
+		return isHighQuality;
+	}
+
+	public void setIsHighQuality(IsHighQuality isHighQuality) {
+		this.isHighQuality = isHighQuality;
+	}
 	
 
 }
