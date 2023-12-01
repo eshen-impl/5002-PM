@@ -1,18 +1,18 @@
-package milestone.model;
+package pm.model;
 
 public class Customization {
 	protected int customizationId;
 	protected Item item;
-	protected Color color;
-	protected float condition;
-	protected IsHighQuality isHighQuality;
-	protected Character character;
-	
-	public enum isHighQuality{
-		High,Normal
-	}
+	protected String color;
 
-	public Customization(int customizationId, Item item, Color color, float condition, IsHighQuality isHighQUality,Character character) {
+	
+	protected float condition;
+
+	protected Character character;
+	protected String isHighQuality;
+
+
+	public Customization(int customizationId, Item item, String color, float condition, String isHighQuality,Character character) {
 		
 		this.customizationId = customizationId;
 		this.item = item;
@@ -22,7 +22,7 @@ public class Customization {
 		this.character = character;
 	}
 
-	public Customization(Item item, Color color, float condition, IsHighQuality isHighQUality,Character character) {
+	public Customization(Item item, String color, float condition, String isHighQuality,Character character) {
 
 		this.item = item;
 		this.color = color;
@@ -52,11 +52,11 @@ public class Customization {
 		this.item = item;
 	}
 
-	public Color getColor() {
+	public String getColor() {
 		return color;
 	}
 
-	public void setColor(Color color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 
@@ -75,11 +75,11 @@ public class Customization {
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
-	public IsHighQuality getIsHighQuality() {
+	public String getIsHighQuality() {
 		return isHighQuality;
 	}
 
-	public void setIsHighQuality(IsHighQuality isHighQuality) {
+	public void setIsHighQuality(String isHighQuality) {
 		this.isHighQuality = isHighQuality;
 	}
 	

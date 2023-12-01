@@ -37,12 +37,12 @@ public class WeaponDao extends EquippableDao {
 
 	public Weapon create(Weapon weapon) throws SQLException {
 		// Insert into the superclass table first.
-		Integer item_id = weapon.getItemID();
+		Integer item_id = weapon.getItemId();
 		if (item_id == null) {
 			Equippable equippable = super.create(new Equippable(weapon.getItemName(),weapon.getMaxStackSize(),weapon.getVendorPrice(),
 	                weapon.getCanBeSold(),weapon.getItemLevel(),weapon.getSlotType(),weapon.getRequiredJobLevel()));
-	        item_id = equippable.getItemID();
-			weapon.setItemID(item_id);
+	        item_id = equippable.getItemId();
+			weapon.setItemId(item_id);
 		}
 
 		String insertWeapon = "INSERT INTO Weapon(itemID,damageDone,autoAttack,attackDelay,associatedJob) VALUES(?,?,?,?,?);";
@@ -100,12 +100,12 @@ public class WeaponDao extends EquippableDao {
 	            BigDecimal vendorPrice = results.getBigDecimal("vendorPrice");
 	            Boolean canBeSold = results.getBoolean("canBeSold");
 	            Integer itemLevel = results.getInt("itemLevel");
-	            Equippable.SlotType slotType = Equippable.SlotType.valueOf(results.getString("slotType"));
+	            String slotType = results.getString("slotType");
 	            Integer requiredJobLevel = results.getInt("requiredJobLevel");
 	            Double damageDone = results.getDouble("damageDone");
 	            Double autoAttack = results.getDouble("autoAttack");
 	            Double attackDelay = results.getDouble("attackDelay");
-	            Job associatedJob = JobDao.getInstance().getJobByJobID(results.getInt("associatedJob"));
+	            Job associatedJob = JobDao.getInstance().getJobByJobId(results.getInt("associatedJob"));
 
 	            Weapon weapon = new Weapon(resultItemID, itemName, maxStackSize, vendorPrice, canBeSold,
 	                    itemLevel, slotType, requiredJobLevel, damageDone, autoAttack, attackDelay, associatedJob);

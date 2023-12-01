@@ -10,23 +10,21 @@ import java.math.BigDecimal;
  */
 public class Equippable extends Item {
 	protected Integer itemLevel;
-	protected SlotType slotType;
+	protected String slotType;
 	protected Integer requiredJobLevel;
 
-	public enum SlotType {
-		Mainhand, head, body, hands, legs, feet, offHand, earring, Wrist, ring
-	}
 
-	public Equippable(Integer itemID, String itemName, Integer maxStackSize, BigDecimal vendorPrice, Boolean canBeSold, 
-			Integer itemLevel, SlotType slotType, Integer requiredJobLevel) {
+
+	public Equippable(int itemID, String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel) {
 		super(itemID, itemName, maxStackSize, vendorPrice, canBeSold );
 		this.itemLevel = itemLevel;
 		this.slotType = slotType;
 		this.requiredJobLevel = requiredJobLevel;
 	}
 
-	public Equippable(String itemName, Integer maxStackSize, BigDecimal vendorPrice, Boolean canBeSold, 
-			Integer itemLevel, SlotType slotType, Integer requiredJobLevel) {
+	public Equippable(String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel) {
 		super(itemName, maxStackSize, vendorPrice, canBeSold );
 		this.itemLevel = itemLevel;
 		this.slotType = slotType;
@@ -47,11 +45,11 @@ public class Equippable extends Item {
 		this.itemLevel = itemLevel;
 	}
 
-	public SlotType getSlotType() {
+	public String getSlotType() {
 		return slotType;
 	}
 
-	public void setSlotType(SlotType slotType) {
+	public void setSlotType(String slotType) {
 		this.slotType = slotType;
 	}
 
