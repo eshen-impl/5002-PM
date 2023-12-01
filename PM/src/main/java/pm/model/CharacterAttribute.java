@@ -27,6 +27,12 @@ public int getAttributeValue() {
 public void setAttributeValue(int attributeValue) {
 	this.attributeValue = attributeValue;
 }
+@Override
+public String toString() {
+	return "CharacterAttribute [character=" + character + ", attributes=" + attributes + ", attributeValue="
+			+ attributeValue + "]";
+}
+
 
 
 }

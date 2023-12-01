@@ -1,7 +1,7 @@
 package pm.dal;
 
 import pm.model.*;
-import pm.model.EquippableBonus.Attribute;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,15 +30,14 @@ public class EquippableBonusDao {
 	 */
 	public EquippableBonus create(EquippableBonus equippableBonus) throws SQLException {
 		String insertEquippableBonus =
-			"INSERT INTO EquippableBonus(itemID, attribute, bonusValue) " +
-			"VALUES(?,?,?);";
+			"INSERT INTO EquippableBonus(itemID, attribute, bonusValue) VALUES(?,?,?);";
 		Connection connection = null;
 		PreparedStatement insertStmt = null;
 		try {
 			connection = connectionManager.getConnection();
 			insertStmt = connection.prepareStatement(insertEquippableBonus);
-			insertStmt.setInt(1, equippableBonus.getItemID().getItemID());
-			insertStmt.setString(2, equippableBonus.getAttribute().name());
+			insertStmt.setInt(1, equippableBonus.getItemID().getItemId());
+			insertStmt.setString(2, equippableBonus.getAttribute());
 			insertStmt.setDouble(3, equippableBonus.getBonusValue());
 			insertStmt.executeUpdate();
 			
@@ -59,13 +58,10 @@ public class EquippableBonusDao {
 	/**
 	 * 2. public EquippableBonus getEquippableBonusByItemIDAndAttribute(ItemID itemID, Attribute attribute)   
 	 */
-	public EquippableBonus getEquippableBonusByItemIDAndAttribute(Item item, Attribute attribute) throws SQLException {
+	public EquippableBonus getEquippableBonusByItemIDAndAttribute(Item item, String attribute) throws SQLException {
 		String selectEquippableBonus =
 			"SELECT EquippableBonus.itemID AS ItemID, itemName, maxStackSize, vendorPrice, canBeSold, itemLevel, slotType, requiredJobLevel,attribute,bonusValue " +
-			"FROM EquippableBonus " +
-			"INNER JOIN Equippable ON EquippableBonus.itemID = Equippable.itemID " +
-			"INNER JOIN Item ON EquippableBonus.itemID = Item.itemID " +
-			"WHERE EquippableBonus.itemID = ? AND EquippableBonus.attribute = ?;";
+			"FROM EquippableBonus INNER JOIN Equippable ON EquippableBonus.itemID = Equippable.itemID INNER JOIN Item ON EquippableBonus.itemID = Item.itemID WHERE EquippableBonus.itemID = ? AND EquippableBonus.attribute = ?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -73,8 +69,8 @@ public class EquippableBonusDao {
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectEquippableBonus);
-			selectStmt.setInt(1, item.getItemID());
-			selectStmt.setString(2, attribute.name());
+			selectStmt.setInt(1, item.getItemId());
+			selectStmt.setString(2, attribute);
 			
 			results = selectStmt.executeQuery();
 			
@@ -85,10 +81,10 @@ public class EquippableBonusDao {
 				String resultattribute = results.getString("attribute");
                 Double bonusValue = results.getDouble("bonusValue");
 				
-                Item fetchedItem = itemDao.getItemByItemID(resultitemID);
+                Item fetchedItem = itemDao.getItemById(resultitemID);
                 
                
-                EquippableBonus equippableBonus = new EquippableBonus(fetchedItem,Attribute.valueOf(resultattribute), bonusValue);
+                EquippableBonus equippableBonus = new EquippableBonus(fetchedItem,resultattribute, bonusValue);
 				return equippableBonus;
 			}
 		} catch (SQLException e) {
@@ -115,17 +111,14 @@ public class EquippableBonusDao {
 		List<EquippableBonus> equippableBonusList = new ArrayList< >();
 		String selectEquippableBonus =
 				"SELECT EquippableBonus.itemID AS ItemID, itemName, maxStackSize, vendorPrice, canBeSold, itemLevel, slotType, requiredJobLevel,attribute,bonusValue " +
-				"FROM EquippableBonus " +
-				"INNER JOIN Equippable ON EquippableBonus.itemID = Equippable.itemID " +
-				"INNER JOIN Item ON EquippableBonus.itemID = Item.itemID " +
-				"WHERE EquippableBonus.itemID = ?;";
+				"FROM EquippableBonus INNER JOIN Equippable ON EquippableBonus.itemID = Equippable.itemID INNER JOIN Item ON EquippableBonus.itemID = Item.itemID WHERE EquippableBonus.itemID = ?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
 		try {
 			connection = connectionManager.getConnection();
 			selectStmt = connection.prepareStatement(selectEquippableBonus);
-			selectStmt.setInt(1, item.getItemID());
+			selectStmt.setInt(1, item.getItemId());
 			results = selectStmt.executeQuery();
 			
 			ItemDao itemDao = ItemDao.getInstance();
@@ -135,9 +128,9 @@ public class EquippableBonusDao {
 				String resultattribute = results.getString("attribute");
                 Double bonusValue = results.getDouble("bonusValue");
 				
-                Item fetchedItem = itemDao.getItemByItemID(resultitemID);
+                Item fetchedItem = itemDao.getItemById(resultitemID);
 				
-                EquippableBonus equippableBonus = new EquippableBonus(fetchedItem, Attribute.valueOf(resultattribute), bonusValue);
+                EquippableBonus equippableBonus = new EquippableBonus(fetchedItem, resultattribute, bonusValue);
                 equippableBonusList.add(equippableBonus);
 			}
 		} catch (SQLException e) {

@@ -82,6 +82,12 @@ public class Customization {
 	public void setIsHighQuality(String isHighQuality) {
 		this.isHighQuality = isHighQuality;
 	}
+
+	@Override
+	public String toString() {
+		return "Customization [customizationId=" + customizationId + ", item=" + item + ", color=" + color
+				+ ", condition=" + condition + ", character=" + character + ", isHighQuality=" + isHighQuality + "]";
+	}
 	
 
 }
