@@ -2,7 +2,6 @@ package pm.tools;
 
 import pm.dal.*;
 import pm.model.*;
-import pm.model.Character;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -11,6 +10,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import java.util.List;
+
+import milestone.dal.CharacterAttributeDao;
+import milestone.dal.CustomizationDao;
+import milestone.dal.GearJobDao;
 
 
 
@@ -29,7 +32,9 @@ public class Driver {
 		WeaponDao weaponDao = WeaponDao.getInstance();
 		GearDao gearDao = GearDao.getInstance();
 		EquippableBonusDao equippableBonusDao = EquippableBonusDao.getInstance();
-		
+		GearJobDao gearJobDao = GearJobDao.getInstance();
+		CharacterAttributeDao characterAttributeDao = CharacterAttributeDao.getInstance();
+		CustomizationDao customizationDao = CustomizationDao.getInstance();
 		
 		
 	
@@ -158,6 +163,53 @@ public class Driver {
 	    EquippableBonus equiBonus5 = new EquippableBonus(equi5,EquippableBonus.Attribute.defense,100); 
 	    equiBonus5 = equippableBonusDao.create(equiBonus5);
 	
+	    //insert data into GearJob
+	    GearJob gearJob1 = new GearJob(gear1,Job1);
+	    gearJob1 = GearJobDao.create(gearJob1);
+	    
+	    GearJob gearJob2 = new GearJob(gear2,Job2);
+	    gearJob2 = GearJobDao.create(gearJob2);
+	    
+	    GearJob gearJob3 = new GearJob(gear3,Job3);
+	    gearJob3 = GearJobDao.create(gearJob3);
+	    
+	    GearJob gearJob4 = new GearJob(gear4,Job4);
+	    gearJob4 = GearJobDao.create(gearJob4);
+	    
+	    GearJob gearJob5 = new GearJob(gear5,Job5);
+	    gearJob5 = GearJobDao.create(gearJob5);
+	    
+	    //insert data into CharacterAttribute
+	    CharacterAttribute characterAttribute1 = new CharacterAttribute(character1,attribute1,1);
+	    characterAttribute1 = CharacterAttributeDao.create(characterAttribute1);
+	    		
+	    CharacterAttribute characterAttribute2 = new CharacterAttribute(character2,attribute2,2);
+	    characterAttribute2 = CharacterAttributeDao.create(characterAttribute2);
+	    
+	    CharacterAttribute characterAttribute3 = new CharacterAttribute(character3,attribute3,3);
+	    characterAttribute3 = CharacterAttributeDao.create(characterAttribute3);
+	    
+	    CharacterAttribute characterAttribute4 = new CharacterAttribute(character4,attribute4,4);
+	    characterAttribute4 = CharacterAttributeDao.create(characterAttribute4);
+	    
+	    CharacterAttribute characterAttribute5 = new CharacterAttribute(character5,attribute5,5);
+	    characterAttribute5 = CharacterAttributeDao.create(characterAttribute5);
+	    
+	    // insert into Customization
+	    Customization customization1 = new Customization(Item1,color1,1.0,High,character1);
+	    customization1 = CustomizationDao.create(customization1) ;
+	    
+	    Customization customization2 = new Customization(Item2,color2,2.0,High,character2);
+	    customization1 = CustomizationDao.create(customization2) ;
+	    
+	    Customization customization3 = new Customization(Item3,color3,3.0,Normal,character3);
+	    customization1 = CustomizationDao.create(customization3) ;
+	    
+	    Customization customization4 = new Customization(Item4,color4,4.0,Normal,character4);
+	    customization4 = CustomizationDao.create(customization4) ;
+	    
+	    Customization customization5 = new Customization(Item5,color5,5.0,Normal,character5);
+	    customization5 = CustomizationDao.create(customization5) ;
 		// READ
 		//1. Get Equippable By ItemID
 	    Equippable e1 = equippableDao.getEquippableByItemID(11);
@@ -200,6 +252,7 @@ public class Driver {
 	        System.out.format("ID:%d Attribute:%s BonusValue:%f\n",
 	                eb.getItemID(), eb.getAttribute(), eb.getBonusValue());
 	    }
+	    
 	
 		// Delete
 		//1. Delete(Gear itemID)
@@ -215,3 +268,4 @@ public class Driver {
 	
 	
 }
+
