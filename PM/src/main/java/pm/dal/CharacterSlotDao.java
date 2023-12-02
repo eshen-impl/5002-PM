@@ -9,83 +9,171 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterSlotDao {
-    private Connection connection;
-
-    // Constructor to initialize the connection
-    public CharacterSlotDao(Connection connection) {
-        this.connection = connection;
+    protected ConnectionManager connectionManager;
+    private static CharacterSlotDao instance = null;
+    protected CharacterSlotDao() {
+        connectionManager = new ConnectionManager();
     }
+    public static CharacterSlotDao getInstance() {
+        if(instance == null) {
+            instance = new CharacterSlotDao();
+        }
+        return instance;
+    }
+
 
     // Create method for inserting a new record
     public CharacterSlot create(CharacterSlot characterSlot) throws SQLException {
-        String insertQuery = "INSERT INTO CharacterSlot (characterId, slotType, equippedItem, customization) " +
+        
+        String insert = "INSERT INTO CharacterSlot (characterId, slotType, equippedItem, customization) " +
                 "VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, characterSlot.getCharacterId());
-            pstmt.setString(2, characterSlot.getSlotType());
-            pstmt.setInt(3, characterSlot.getEquippedItem());
-            pstmt.setInt(4, characterSlot.getCustomization());
+        String insertNoCst = "INSERT INTO CharacterSlot (characterId, slotType, equippedItem) " +
+                "VALUES (?, ?, ?)";
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			if (characterSlot.getCustomization()!=null) {
+				pstmt = connection.prepareStatement(insert);
+				pstmt.setInt(4, characterSlot.getCustomization().getCustomizationId());
+			} else {
+				pstmt = connection.prepareStatement(insertNoCst);
+			}
+			
+	           pstmt.setInt(1, characterSlot.getCharacter().getCharacterId());
+	            pstmt.setString(2, characterSlot.getSlotType());
+	            pstmt.setInt(3, characterSlot.getEquippedItem().getItemId());
 
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Creating CharacterSlot record failed, no rows affected.");
-            }
+            pstmt.executeUpdate();
+           
 
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    characterSlot.setSlotId(generatedKeys.getInt(1));
-                } else {
-                    throw new SQLException("Creating CharacterSlot record failed, no ID obtained.");
-                }
-            }
-        }
-        return characterSlot;
+			return characterSlot;
+		} catch (SQLException e) {
+			        e.printStackTrace();
+			        throw e;
+			
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+
+		}
+
+    
     }
 
     // Method for fetching records based on search keys
     public List<CharacterSlot> getCharacterSlotsByCharacterId(int characterId) throws SQLException {
         List<CharacterSlot> result = new ArrayList<>();
         String selectQuery = "SELECT * FROM CharacterSlot WHERE characterId = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(selectQuery)) {
-            pstmt.setInt(1, characterId);
-            try (ResultSet resultSet = pstmt.executeQuery()) {
-                while (resultSet.next()) {
-                    CharacterSlot characterSlot = mapResultSetToCharacterSlot(resultSet);
-                    result.add(characterSlot);
-                }
-            }
-        }
+    	Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectQuery);
+			selectStmt.setInt(1, characterId);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				CharacterSlot characterSlot = mapResultSetToCharacterSlot(results);
+                result.add(characterSlot);
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}		
+
         return result;
     }
 
     // Method for updating an attribute for a single record
-    public void updateEquippedItem(CharacterSlot characterSlot, int newEquippedItem) throws SQLException {
+    public CharacterSlot updateEquippedItem(CharacterSlot characterSlot, Equippable newEquippedItem) throws SQLException {
         String updateQuery = "UPDATE CharacterSlot SET equippedItem = ? WHERE characterId = ? AND slotType = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(updateQuery)) {
-            pstmt.setInt(1, newEquippedItem);
-            pstmt.setInt(2, characterSlot.getCharacterId());
-            pstmt.setString(3, characterSlot.getSlotType());
+
+        
+        Connection connection = null;
+		PreparedStatement pstmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			 pstmt = connection.prepareStatement(updateQuery);
+	            pstmt.setInt(1, newEquippedItem.getItemId());
+	            pstmt.setInt(2, characterSlot.getCharacter().getCharacterId());
+	            pstmt.setString(3, characterSlot.getSlotType());
             pstmt.executeUpdate();
-        }
+            characterSlot.setEquippedItem(newEquippedItem);;
+			return characterSlot;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+		}
+        
+        
     }
 
     // Method for deleting a record
     public void delete(CharacterSlot characterSlot) throws SQLException {
         String deleteQuery = "DELETE FROM CharacterSlot WHERE characterId = ? AND slotType = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(deleteQuery)) {
-            pstmt.setInt(1, characterSlot.getCharacterId());
+
+        
+        Connection connection = null;
+		PreparedStatement pstmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			pstmt = connection.prepareStatement(deleteQuery);
+            pstmt.setInt(1, characterSlot.getCharacter().getCharacterId());
             pstmt.setString(2, characterSlot.getSlotType());
             pstmt.executeUpdate();
-        }
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+		}
+        
     }
 
     // Helper method to map ResultSet to CharacterSlot object
     private CharacterSlot mapResultSetToCharacterSlot(ResultSet resultSet) throws SQLException {
         CharacterSlot characterSlot = new CharacterSlot();
-        characterSlot.setCharacterId(resultSet.getInt("characterId"));
+        
+        CharacterDao characterDao = CharacterDao.getInstance();
+        CustomizationDao customizationDao = CustomizationDao.getInstance();
+        EquippableDao equippableDao = EquippableDao.getInstance();
+        
+        characterSlot.setCharacter(characterDao.getCharacterById(resultSet.getInt("characterId")));
         characterSlot.setSlotType(resultSet.getString("slotType"));
-        characterSlot.setEquippedItem(resultSet.getInt("equippedItem"));
-        characterSlot.setCustomization(resultSet.getInt("customization"));
+        characterSlot.setEquippedItem(equippableDao.getEquippableByItemID(resultSet.getInt("equippedItem")));
+        characterSlot.setCustomization(customizationDao.getCustomizationById(resultSet.getInt("customization")));
         return characterSlot;
+
     }
 }

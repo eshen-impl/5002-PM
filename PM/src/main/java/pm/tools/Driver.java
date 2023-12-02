@@ -35,7 +35,10 @@ public class Driver {
 		GearJobDao gearJobDao = GearJobDao.getInstance();
 		CharacterAttributeDao characterAttributeDao = CharacterAttributeDao.getInstance();
 		CustomizationDao customizationDao = CustomizationDao.getInstance();
-		
+		InventoryDao inventoryDao = InventoryDao.getInstance();
+		CharacterSlotDao characterSlotDao = CharacterSlotDao.getInstance();
+		CharacterJobDao characterJobDao = CharacterJobDao.getInstance();
+		CharacterCurrencyDao characterCurrencyDao = CharacterCurrencyDao.getInstance();
 		
 		// test ItemDao
 		Item item = new Item("TestItem", 10, 100, true);
@@ -321,8 +324,74 @@ public class Driver {
 		    System.out.println("Error occurred during deletion: " + e.getMessage());
 		}
 		
+		// test Inventory
+		Inventory inventory1 = new Inventory(newCharacter, 1, customization1, equi3, 1);
+		inventoryDao.create(inventory1);
+		Inventory inventory2 = new Inventory(newCharacter, 2, customization4, gear2, 1);
+		inventoryDao.create(inventory2);
+		Inventory inventory3 = new Inventory(newCharacter, 5, null, consumable1, 46);
+		inventoryDao.create(inventory3);
+		Inventory inventory4 = new Inventory(newCharacter, 9, null, miscellaneous2, 23);
+		inventoryDao.create(inventory4);
 		
-		
+		List<Inventory> Inventories = inventoryDao.getInventoryByCharacterId(newCharacter.getCharacterId());
+	    System.out.println("Reading inventory items:");
+	    for (Inventory eb : Inventories) {
+	    	System.out.println(eb);
+	    }
+	    
+	    inventoryDao.updateQuantity(inventory4, 50);
+	    inventoryDao.delete(inventory3);
+	    
+	    
+	    // test CharacterSlot
+	    CharacterSlot characterSlot1 = new CharacterSlot(newCharacter, "Main hand", equi3, customization1);
+	    characterSlotDao.create(characterSlot1);
+	    CharacterSlot characterSlot2 = new CharacterSlot(newCharacter, "body", gear3, null);
+	    characterSlotDao.create(characterSlot2);
+	    CharacterSlot characterSlot3 = new CharacterSlot(newCharacter, "feet", gear1, null);
+	    characterSlotDao.create(characterSlot3);
+	    
+	    List<CharacterSlot> characterSlots = characterSlotDao.getCharacterSlotsByCharacterId(newCharacter.getCharacterId());
+	    System.out.println("Reading Character equipped items:");
+	    for (CharacterSlot eb : characterSlots) {
+	    	System.out.println(eb);
+	    }
+	
+	    characterSlotDao.updateEquippedItem(characterSlot2, gear1);
+	    characterSlotDao.delete(characterSlot3);
+	    
+	    // test CharacterJob
+	    CharacterJob characterJob1 = new CharacterJob(newCharacter, newJob, 500l, true, true);
+	    characterJobDao.create(characterJob1);
+	    CharacterJob characterJob2 = new CharacterJob(newCharacter, exJob, 3000l, true, false);
+	    characterJobDao.create(characterJob2);
+	    
+	    List<CharacterJob> characterJobs = characterJobDao.getCharacterJobsByCharacterId(newCharacter.getCharacterId());
+	    System.out.println("Reading Character jobs:");
+	    for (CharacterJob eb : characterJobs) {
+	    	System.out.println(eb);
+	    }
+	
+	    characterJobDao.updateCurrentExp(characterJob1, 1000l);
+	    characterJobDao.delete(characterJob2);
+	
+	
+	    // test CharacterCurrency
+	    CharacterCurrency characterCurrency1 = new CharacterCurrency(newCharacter, newCurrency, 500,2400);
+	    characterCurrencyDao.create(characterCurrency1);
+	    CharacterCurrency characterCurrency2 = new CharacterCurrency(newCharacter, exCurrency, 6800,50000);
+	    characterCurrencyDao.create(characterCurrency2);
+	    
+	    List<CharacterCurrency> characterCurrencys = characterCurrencyDao.getCharacterCurrenciesByCharacterId(newCharacter.getCharacterId());
+	    System.out.println("Reading Character currency:");
+	    for (CharacterCurrency eb : characterCurrencys) {
+	    	System.out.println(eb);
+	    }
+	
+	    characterCurrencyDao.updateAmountOwned(characterCurrency1, 1999);
+	    characterCurrencyDao.delete(characterCurrency2);
+
 	}
 	
 	

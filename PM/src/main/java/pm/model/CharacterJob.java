@@ -2,10 +2,9 @@ package pm.model;
 import java.util.Objects;
 
 public class CharacterJob {
-    private int characterId;
-    private int jobId;
-    private String currentExp;
-    private int currentLevel;
+    private Character character;
+    private Job job;
+    private Long currentExp;
     private boolean isUnlocked;
     private boolean isCurrentJob;
 
@@ -14,94 +13,60 @@ public class CharacterJob {
     public CharacterJob() {
     }
 
-    public CharacterJob(int characterId, int jobId, String currentExp, int currentLevel, boolean isUnlocked, boolean isCurrentJob) {
-        this.characterId = characterId;
-        this.jobId = jobId;
-        this.currentExp = currentExp;
-        this.currentLevel = currentLevel;
-        this.isUnlocked = isUnlocked;
-        this.isCurrentJob = isCurrentJob;
-    }
+	public CharacterJob(Character character, Job job, Long currentExp, boolean isUnlocked, boolean isCurrentJob) {
+		this.character = character;
+		this.job = job;
+		this.currentExp = currentExp;
+		this.isUnlocked = isUnlocked;
+		this.isCurrentJob = isCurrentJob;
+	}
 
-    // Getter and Setter methods
+	public Character getCharacter() {
+		return character;
+	}
 
-    public int getCharacterId() {
-        return characterId;
-    }
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
 
-    public void setCharacterId(int characterId) {
-        this.characterId = characterId;
-    }
+	public Job getJob() {
+		return job;
+	}
 
-    public int getJobId() {
-        return jobId;
-    }
+	public void setJob(Job job) {
+		this.job = job;
+	}
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
-    }
+	public Long getCurrentExp() {
+		return currentExp;
+	}
 
-    public String getCurrentExp() {
-        return currentExp;
-    }
+	public void setCurrentExp(Long currentExp) {
+		this.currentExp = currentExp;
+	}
 
-    public void setCurrentExp(String currentExp) {
-        this.currentExp = currentExp;
-    }
+	public boolean isUnlocked() {
+		return isUnlocked;
+	}
 
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
+	public void setUnlocked(boolean isUnlocked) {
+		this.isUnlocked = isUnlocked;
+	}
 
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
+	public boolean isCurrentJob() {
+		return isCurrentJob;
+	}
 
-    public boolean isUnlocked() {
-        return isUnlocked;
-    }
+	public void setCurrentJob(boolean isCurrentJob) {
+		this.isCurrentJob = isCurrentJob;
+	}
 
-    public void setUnlocked(boolean unlocked) {
-        isUnlocked = unlocked;
-    }
+	@Override
+	public String toString() {
+		return "CharacterJob [character=" + character + ", job=" + job + ", currentExp=" + currentExp + ", isUnlocked="
+				+ isUnlocked + ", isCurrentJob=" + isCurrentJob + "]";
+	}
 
-    public boolean isCurrentJob() {
-        return isCurrentJob;
-    }
-
-    public void setCurrentJob(boolean currentJob) {
-        isCurrentJob = currentJob;
-    }
-
-    // Other methods
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CharacterJob that = (CharacterJob) o;
-        return characterId == that.characterId &&
-                jobId == that.jobId &&
-                currentLevel == that.currentLevel &&
-                isUnlocked == that.isUnlocked &&
-                isCurrentJob == that.isCurrentJob &&
-                Objects.equals(currentExp, that.currentExp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(characterId, jobId, currentExp, currentLevel, isUnlocked, isCurrentJob);
-    }
-
-    @Override
-    public String toString() {
-        return "CharacterJob{" +
-                "characterId=" + characterId +
-                ", jobId=" + jobId +
-                ", currentExp='" + currentExp + '\'' +
-                ", currentLevel=" + currentLevel +
-                ", isUnlocked=" + isUnlocked +
-                ", isCurrentJob=" + isCurrentJob +
-                '}';
-    }
+	
+   
 }
