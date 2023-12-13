@@ -39,7 +39,7 @@ public class ItemDao {
             insertStmt.setString(1, item.getItemName());
             insertStmt.setInt(2, item.getMaxStackSize());
             insertStmt.setInt(3, item.getVendorPrice());
-            insertStmt.setBoolean(3, item.getCanBeSold());
+            insertStmt.setBoolean(4, item.getCanBeSold());
 
             insertStmt.executeUpdate();
             resultKey = insertStmt.getGeneratedKeys();

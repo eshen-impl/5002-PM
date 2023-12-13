@@ -15,8 +15,8 @@ public class Gear extends Equippable {
 	protected double magicDefenseRating;
 
 
-	public Gear(Integer itemID, String itemName, Integer maxStackSize, BigDecimal vendorPrice, Boolean canBeSold, 
-			Integer itemLevel, SlotType slotType, Integer requiredJobLevel,
+	public Gear(int itemID, String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel,
 			double defenseRating, double magicDefenseRating) {
 		super(itemID, itemName, maxStackSize, vendorPrice, canBeSold,
 			  itemLevel, slotType, requiredJobLevel);
@@ -24,8 +24,11 @@ public class Gear extends Equippable {
 		this.magicDefenseRating = magicDefenseRating;
 	}
 
-	public Gear(Integer itemID,double defenseRating, double magicDefenseRating) {
-		super(itemID);
+	public Gear( String itemName, int maxStackSize, int vendorPrice, Boolean canBeSold, 
+			Integer itemLevel, String slotType, Integer requiredJobLevel,
+			double defenseRating, double magicDefenseRating) {
+		super( itemName, maxStackSize, vendorPrice, canBeSold,
+			  itemLevel, slotType, requiredJobLevel);
 		this.defenseRating = defenseRating;
 		this.magicDefenseRating = magicDefenseRating;
 	}
@@ -54,4 +57,14 @@ public class Gear extends Equippable {
 	public void setMagicDefenseRating(double magicDefenseRating) {
 		this.magicDefenseRating = magicDefenseRating;
 	}
+
+	@Override
+	public String toString() {
+		return "Gear [defenseRating=" + defenseRating + ", magicDefenseRating=" + magicDefenseRating + ", itemLevel="
+				+ itemLevel + ", slotType=" + slotType + ", requiredJobLevel=" + requiredJobLevel + ", itemId=" + itemId
+				+ ", itemName=" + itemName + ", maxStackSize=" + maxStackSize + ", vendorPrice=" + vendorPrice
+				+ ", canBeSold=" + canBeSold + "]";
+	}
+	
+	
 }

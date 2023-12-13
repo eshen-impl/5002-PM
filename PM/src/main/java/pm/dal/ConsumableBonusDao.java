@@ -109,9 +109,7 @@ public class ConsumableBonusDao {
 
     public ConsumableBonus getConsumableBonusByItemAttribute(Item item, String attribute) throws SQLException {
         String selectConsumableBonus =
-                "SELECT itemId,attribute,bonusPercentage,bonusCap " +
-                        "FROM ConsumableBonus " +
-                        "WHERE itemId=? AND attribute=?;";
+                "SELECT itemId,attribute,bonusPercentage,bonusCap FROM ConsumableBonus WHERE itemId=? AND attribute=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
@@ -152,9 +150,7 @@ public class ConsumableBonusDao {
     public List<ConsumableBonus> getConsumableBonusesByBonusCap(long bonusCap) throws SQLException {
         List<ConsumableBonus> consumableBonuses = new ArrayList<>();
         String selectConsumableBonus =
-                "SELECT itemId,attribute,bonusPercentage,bonusCap " +
-                        "FROM ConsumableBonus " +
-                        "WHERE bonusCap=?;";
+                "SELECT itemId,attribute,bonusPercentage,bonusCap FROM ConsumableBonus WHERE bonusCap=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;

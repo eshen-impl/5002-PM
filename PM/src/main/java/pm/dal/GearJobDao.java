@@ -1,4 +1,5 @@
-package milestone.dal;
+package pm.dal;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import milestone.model.*;
+import pm.model.*;
 
 public class GearJobDao {
 	protected ConnectionManager connectionManager;
@@ -55,13 +56,8 @@ public class GearJobDao {
 	    GearDao gearDao = GearDao.getInstance();
 	    JobDao jobDao = JobDao.getInstance();
 
-	    Gear gear = gearDao.getGearByItemID(itemId);
-	    Job job = jobDao.getJobByID(jobId);
-
 	    String selectGearJob =
-	        "SELECT itemId, jobId " +
-	        "FROM GearJob " +
-	        "WHERE itemId=? AND jobId=?;";
+	        "SELECT itemId, jobId FROM GearJob WHERE itemId=? AND jobId=?;";
 	    Connection connection = null;
 	    PreparedStatement selectStmt = null;
 	    ResultSet results = null;
@@ -74,7 +70,9 @@ public class GearJobDao {
 
 	        if(results.next()) {
 	            // 如果找到匹配的GearJob，使用已检索的Gear和Job对象创建GearJob
-	            GearJob gearJob = new GearJob(gear, job); // 假设构造函数接受Gear和Job对象
+	        	Integer resultItemId = results.getInt("itemId");
+	        	Integer resultJobId = results.getInt("jobId");
+	            GearJob gearJob = new GearJob(gearDao.getGearByItemID(resultItemId), jobDao.getJobByID(resultJobId)); // 假设构造函数接受Gear和Job对象
 	            return gearJob;
 	        }
 	    } catch (SQLException e) {

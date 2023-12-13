@@ -12,6 +12,13 @@ public class Consumable extends Item {
 		this.itemLevel = itemLevel;
 		this.description = description;
 	}
+	
+	public Consumable(String itemName, int maxStackSize, int vendorPrice, boolean canBeSold, int itemLevel,
+			String description) {
+		super(itemName, maxStackSize, vendorPrice, canBeSold);
+		this.itemLevel = itemLevel;
+		this.description = description;
+	}
 
 
 	public Consumable(int itemId) {

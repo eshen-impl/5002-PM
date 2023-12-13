@@ -1,12 +1,12 @@
-package milestone.dal;
+package pm.dal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import milestone.model.Character;
-import milestone.model.Attributes;
-import milestone.model.CharacterAttribute;
+import pm.model.*;
+import pm.model.Character;
+
 
 public class CharacterAttributeDao {
   
@@ -31,7 +31,7 @@ public class CharacterAttributeDao {
             connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertCharacterAttribute);
             insertStmt.setInt(1, characterAttribute.getCharacter().getCharacterId());
-            insertStmt.setString(2, characterAttribute.getAttributes().getAttribute());
+            insertStmt.setString(2, characterAttribute.getAttributes());
             insertStmt.setInt(3, characterAttribute.getAttributeValue());
             insertStmt.executeUpdate();
             return characterAttribute;
@@ -65,9 +65,10 @@ public class CharacterAttributeDao {
                 String resultAttributeName = results.getString("attributeName");
                 int attributeValue = results.getInt("attributeValue");
 
-                Character character = new Character(resultCharacterId); 
-                Attributes attributes = new Attributes(resultAttributeName); 
-                CharacterAttribute characterAttribute = new CharacterAttribute(character, attributes, attributeValue);
+                CharacterDao characterDao = CharacterDao.getInstance();
+                
+                Character character = characterDao.getCharacterById(resultCharacterId); 
+                CharacterAttribute characterAttribute = new CharacterAttribute(character, resultAttributeName, attributeValue);
                 return characterAttribute;
             }
         } catch (SQLException e) {
@@ -96,7 +97,7 @@ public class CharacterAttributeDao {
             connection = connectionManager.getConnection();
             deleteStmt = connection.prepareStatement(deleteCharacterAttribute);
             deleteStmt.setInt(1, characterAttribute.getCharacter().getCharacterId());
-            deleteStmt.setString(2, characterAttribute.getAttributes().getAttribute());
+            deleteStmt.setString(2, characterAttribute.getAttributes());
             deleteStmt.executeUpdate();
 
             // 返回 null 表示对象已被删除

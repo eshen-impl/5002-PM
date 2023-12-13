@@ -1,106 +1,72 @@
+package pm.model;
 import java.util.Objects;
 
 public class Inventory {
-    private int characterId;
+    private Character character;
     private int slotId;
-    private int customizationId;
-    private int itemId;
+    private Customization customization;
+    private Item item;
     private int quantity;
-    private boolean isEquipped;
 
     // Constructors
 
     public Inventory() {
     }
 
-    public Inventory(int characterId, int slotId, int customizationId, int itemId, int quantity, boolean isEquipped) {
-        this.characterId = characterId;
-        this.slotId = slotId;
-        this.customizationId = customizationId;
-        this.itemId = itemId;
-        this.quantity = quantity;
-        this.isEquipped = isEquipped;
-    }
+	public Inventory(Character character, int slotId, Customization customization, Item item, int quantity) {
 
-    // Getter and Setter methods
+		this.character = character;
+		this.slotId = slotId;
+		this.customization = customization;
+		this.item = item;
+		this.quantity = quantity;
+	}
 
-    public int getCharacterId() {
-        return characterId;
-    }
+	public Character getCharacter() {
+		return character;
+	}
 
-    public void setCharacterId(int characterId) {
-        this.characterId = characterId;
-    }
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
 
-    public int getSlotId() {
-        return slotId;
-    }
+	public int getSlotId() {
+		return slotId;
+	}
 
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
+	public void setSlotId(int slotId) {
+		this.slotId = slotId;
+	}
 
-    public int getCustomizationId() {
-        return customizationId;
-    }
+	public Customization getCustomization() {
+		return customization;
+	}
 
-    public void setCustomizationId(int customizationId) {
-        this.customizationId = customizationId;
-    }
+	public void setCustomization(Customization customization) {
+		this.customization = customization;
+	}
 
-    public int getItemId() {
-        return itemId;
-    }
+	public Item getItem() {
+		return item;
+	}
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public boolean isEquipped() {
-        return isEquipped;
-    }
+	@Override
+	public String toString() {
+		return "Inventory [character=" + character + ", slotId=" + slotId + ", customization=" + customization
+				+ ", item=" + item + ", quantity=" + quantity + "]";
+	}
 
-    public void setEquipped(boolean equipped) {
-        isEquipped = equipped;
-    }
-
-    // Other methods
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Inventory inventory = (Inventory) o;
-        return characterId == inventory.characterId &&
-                slotId == inventory.slotId &&
-                customizationId == inventory.customizationId &&
-                itemId == inventory.itemId &&
-                quantity == inventory.quantity &&
-                isEquipped == inventory.isEquipped;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(characterId, slotId, customizationId, itemId, quantity, isEquipped);
-    }
-
-    @Override
-    public String toString() {
-        return "Inventory{" +
-                "characterId=" + characterId +
-                ", slotId=" + slotId +
-                ", customizationId=" + customizationId +
-                ", itemId=" + itemId +
-                ", quantity=" + quantity +
-                ", isEquipped=" + isEquipped +
-                '}';
-    }
+  
 }

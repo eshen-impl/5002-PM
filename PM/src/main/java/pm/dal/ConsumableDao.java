@@ -22,8 +22,7 @@ public class ConsumableDao extends ItemDao{
     }
 
     public Consumable create(Consumable consumable) throws SQLException {
-        create(new Item(consumable.getItemId(), consumable.getItemName(),
-                consumable.getMaxStackSize(), consumable.getVendorPrice(), consumable.getCanBeSold()));
+        Item item = create((Item) consumable);
 
         String insertConsumable = "INSERT INTO Consumable(itemId, itemLevel, description) VALUES(?,?,?);";
         Connection connection = null;
@@ -31,7 +30,7 @@ public class ConsumableDao extends ItemDao{
         try {
             connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertConsumable);
-            insertStmt.setInt(1, consumable.getItemId());
+            insertStmt.setInt(1, item.getItemId());
             insertStmt.setInt(2, consumable.getItemLevel());
             insertStmt.setString(3, consumable.getDescription());
             insertStmt.executeUpdate();
@@ -105,9 +104,7 @@ public class ConsumableDao extends ItemDao{
     public Consumable getConsumablesById(int itemId) throws SQLException {
         String selectConsumable =
                 "SELECT Consumable.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,itemLevel,description " +
-                        "FROM Consumable INNER JOIN Item " +
-                        "  ON Consumable.itemId = Item.itemId " +
-                        "WHERE Consumable.itemId=?;";
+                        "FROM Consumable INNER JOIN Item ON Consumable.itemId = Item.itemId WHERE Consumable.itemId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
@@ -148,9 +145,7 @@ public class ConsumableDao extends ItemDao{
         List<Consumable> consumables = new ArrayList<>();
         String selectConsumable =
                 "SELECT Consumable.itemId AS itemId,itemName,maxStackSize,vendorPrice,canBeSold,itemLevel,description " +
-                        "FROM Consumable INNER JOIN Item " +
-                        "  ON Consumable.itemId = Item.itemId " +
-                        "WHERE Consumbale.itemLevel=?;";
+                        "FROM Consumable INNER JOIN Item ON Consumable.itemId = Item.itemId WHERE Consumable.itemLevel=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;

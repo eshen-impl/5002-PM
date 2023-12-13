@@ -37,13 +37,9 @@ public class WeaponDao extends EquippableDao {
 
 	public Weapon create(Weapon weapon) throws SQLException {
 		// Insert into the superclass table first.
-		Integer item_id = weapon.getItemID();
-		if (item_id == null) {
-			Equippable equippable = super.create(new Equippable(weapon.getItemName(),weapon.getMaxStackSize(),weapon.getVendorPrice(),
-	                weapon.getCanBeSold(),weapon.getItemLevel(),weapon.getSlotType(),weapon.getRequiredJobLevel()));
-	        item_id = equippable.getItemID();
-			weapon.setItemID(item_id);
-		}
+		
+		Equippable equippable = create((Equippable) weapon);
+
 
 		String insertWeapon = "INSERT INTO Weapon(itemID,damageDone,autoAttack,attackDelay,associatedJob) VALUES(?,?,?,?,?);";
 		Connection connection = null;
@@ -51,12 +47,12 @@ public class WeaponDao extends EquippableDao {
 		try {
 			connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertWeapon);
-            insertStmt.setInt(1, item_id);
+            insertStmt.setInt(1, equippable.getItemId());
             insertStmt.setDouble(2, weapon.getDamageDone());
             insertStmt.setDouble(3, weapon.getAutoAttack());
             insertStmt.setDouble(4, weapon.getAttackDelay());
          // Check if associatedJob is not null before accessing properties
-            insertStmt.setInt(5, (weapon.getAssociatedJob() != null) ? weapon.getAssociatedJob().getJobID() : null);
+            insertStmt.setInt(5, (weapon.getAssociatedJob() != null) ? weapon.getAssociatedJob().getJobId() : null);
 
             insertStmt.executeUpdate();
             return weapon;
@@ -81,10 +77,7 @@ public class WeaponDao extends EquippableDao {
 	public Weapon getWeaponByItemID(Integer itemID) throws SQLException {
 	    String selectWeapon =
 	            "SELECT Weapon.itemID AS ItemID, itemName, maxStackSize, vendorPrice, canBeSold, itemLevel, slotType, requiredJobLevel, damageDone, autoAttack, attackDelay, associatedJob " +
-	            "FROM Weapon " +
-	            "INNER JOIN Equippable ON Weapon.itemID = Equippable.itemID " +
-	            "INNER JOIN Item ON Equippable.itemID = Item.itemID " +
-	            "WHERE Weapon.itemID = ?;";
+	            "FROM Weapon INNER JOIN Equippable ON Weapon.itemID = Equippable.itemID INNER JOIN Item ON Equippable.itemID = Item.itemID WHERE Weapon.itemID = ?;";
 	    Connection connection = null;
 	    PreparedStatement selectStmt = null;
 	    ResultSet results = null;
@@ -97,15 +90,16 @@ public class WeaponDao extends EquippableDao {
 	            Integer resultItemID = results.getInt("ItemID");
 	            String itemName = results.getString("itemName");
 	            Integer maxStackSize = results.getInt("maxStackSize");
-	            BigDecimal vendorPrice = results.getBigDecimal("vendorPrice");
+	            Integer vendorPrice = results.getInt("vendorPrice");
 	            Boolean canBeSold = results.getBoolean("canBeSold");
 	            Integer itemLevel = results.getInt("itemLevel");
-	            Equippable.SlotType slotType = Equippable.SlotType.valueOf(results.getString("slotType"));
+	            String slotType = results.getString("slotType");
 	            Integer requiredJobLevel = results.getInt("requiredJobLevel");
 	            Double damageDone = results.getDouble("damageDone");
 	            Double autoAttack = results.getDouble("autoAttack");
 	            Double attackDelay = results.getDouble("attackDelay");
-	            Job associatedJob = JobDao.getInstance().getJobByJobID(results.getInt("associatedJob"));
+	            JobDao jobDao = new JobDao();
+	            Job associatedJob = jobDao.getJobByID(results.getInt("associatedJob"));
 
 	            Weapon weapon = new Weapon(resultItemID, itemName, maxStackSize, vendorPrice, canBeSold,
 	                    itemLevel, slotType, requiredJobLevel, damageDone, autoAttack, attackDelay, associatedJob);
