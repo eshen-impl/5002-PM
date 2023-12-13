@@ -4,7 +4,9 @@ import pm.dal.*;
 import javax.servlet.annotation.*;
 
 import javax.servlet.http.HttpServlet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/charactercurrency")
@@ -23,25 +25,24 @@ public class CharacterCurrency extends HttpServlet {
         Map<String, String> messages = new HashMap<String, String>();
         req.setAttribute("messages", messages);
 
-        // Retrieve and validate UserName.
-        String userName = req.getParameter("username");
-        if (userName == null || userName.trim().isEmpty()) {
-            messages.put("title", "Invalid username.");
+        // Retrieve and validate characterId.
+        int characterId = req.getParameter("characterid");
+        if ((characterId == null) || characterId.trim().isEmpty()) {
+            messages.put("title", "Invalid character ID.");
         } else {
-            messages.put("title", "BlogPosts for " + userName);
+            messages.put("title", "Currencies for " + characterId);
         }
 
-        // Retrieve BlogUsers, and store in the request.
-        List<BlogPosts> blogPosts = new ArrayList<BlogPosts>();
+        // Retrieve Character, and store in the request.
+        List<CharacterCurrency> characterCurrencies = new ArrayList<>();
         try {
-            BlogUsers blogUser = new BlogUsers(userName);
-            blogPosts= blogPostsDao.getBlogPostsForUser(blogUser);
+            characterCurrencies = characterCurrencyDao.getCharacterCurrenciesByCharacterId(characterId);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new IOException(e);
         }
-        req.setAttribute("" +
-                "blogPosts", blogPosts);
+        req.setAttribute(
+                "characterCurrencies", characterCurrencies);
         req.getRequestDispatcher("/CharacterCurrency.jsp").forward(req, resp);
     }
 }
