@@ -28,7 +28,7 @@
       <td><c:out value="${characterCurrency.getCurrency.getCurrencyName()}" /></td>
       <td><c:out value="${characterCurrency.getAmountOwned()}" /></td>
       <td><c:out value="${characterCurrency.getWeeklyAmountOwned}" /></td>
-      <td><a href="updateamountowned?=characterid<c:out value="${characterCurrency.getCharacter().getCharacterId}"/>&currencyname=<c:out value="${characterCurrency.getCurrency.getCurrencyName()}"/>">Update Amount Owned</a></td>
+      <td><a href="updateamountowned?=characterid=<c:out value="${characterCurrency.getCharacter().getCharacterId}"/>&currencyname=<c:out value="${characterCurrency.getCurrency.getCurrencyName()}"/>">Update Amount Owned</a></td>
 
     </tr>
   </c:forEach>

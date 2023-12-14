@@ -1,13 +1,20 @@
 package pm.servlet;
 
 import pm.dal.*;
-import javax.servlet.annotation.*;
+import pm.model.*;
 
-import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/charactercurrency")
 public class CharacterCurrency extends HttpServlet {
@@ -26,7 +33,7 @@ public class CharacterCurrency extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate characterId.
-        int characterId = req.getParameter("characterid");
+        String characterIdParam = req.getParameter("characterid");
         if ((characterId == null) || characterId.trim().isEmpty()) {
             messages.put("title", "Invalid character ID.");
         } else {
@@ -36,6 +43,7 @@ public class CharacterCurrency extends HttpServlet {
         // Retrieve Character, and store in the request.
         List<CharacterCurrency> characterCurrencies = new ArrayList<>();
         try {
+            int characterId = Integer.parseInt(characterIdParam);
             characterCurrencies = characterCurrencyDao.getCharacterCurrenciesByCharacterId(characterId);
         } catch (SQLException e) {
             e.printStackTrace();
