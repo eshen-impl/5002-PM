@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+	body {
+		text-align: center;
+	}
+    table {
+        border-collapse: collapse;
+        border: 1px solid black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+     input {
+    	margin: 10px;
+    	padding:10px 10px;
+    	border-radius: 8px;
+    	border-color: lightgray;
+    	cursor: pointer;
+    	border-width: 1px;
+    }
+    button {
+		margin: 10px;
+		cursor: pointer;
+		font-size: 14px;
+		 font-weight: 500;
+  		line-height: 20px;
+  		padding: 10px 15px;
+  		vertical-align: baseline;
+		border-radius: 10px;
+	}
+    
+
+    
+    select {
+        font-size: 16px; 
+        padding: 8px;
+    }
+
+
+    option {
+        font-size: 16px; 
+        padding: 10px; 
+    }
+    
+    .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    grid-gap: 5px; 
+    width: 100%;
+
+    grid-template-areas:
+        "current option attr"
+        "new option attr";
+}
+
+	
+	.current {
+	    grid-area: current;
+	}
+	
+	.option {
+	    grid-area: option;
+	}
+	
+	.new {
+	    grid-area: new;
+	}
+	
+	.attr {
+	    grid-area: attr;
+	}
+
+	.number{
+	    color: green; 
+	}
+	
+
+	.number.negative {
+	    color: red;
+	}
+
+    

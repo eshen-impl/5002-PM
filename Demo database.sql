@@ -149,7 +149,7 @@ CREATE TABLE Gear (
 CREATE TABLE EquippableBonus (
   itemId INT NOT NULL,
   attribute VARCHAR(50) NOT NULL,
-  bonusValue FLOAT NOT NULL,
+  bonusValue BIGINT NOT NULL,
   CONSTRAINT pk_EquippableBonus_itemId_attribute PRIMARY KEY (itemId,attribute),
   CONSTRAINT fk_EquippableBonus_itemId FOREIGN KEY (itemId)
     REFERENCES Equippable (itemId)
@@ -292,7 +292,12 @@ INSERT INTO Player (accountId, `name`, emailAddress, isActive)
          (33, 'Sherry', 'Sherry@northeastern.edu', TRUE),
          (90, 'Hello', 'Hhh@sina.com', TRUE),
          (529, 'Cool', 'coolcool@coo.com', FALSE),
-         (1000, 'Kaden', 'Kaden112233@gmail.com', TRUE);
+         (1000, 'Kaden', 'Kaden112233@gmail.com', TRUE),
+         (100, 'Daden', 'Daden112233@gmail.com', TRUE),
+         (10, 'Gaden', 'Gaden112233@gmail.com', FALSE),
+         (10000, 'Faden', 'Faden112233@gmail.com', TRUE),
+         (100000, 'Laden', 'Laden112233@gmail.com', TRUE),
+         (1000000, 'Maden', 'Maden112233@gmail.com', TRUE);
     
 -- Insert data into the table 'Character'
 INSERT INTO `Character` (characterId, accountId, characterFirstName, characterLastName) 
@@ -302,16 +307,25 @@ INSERT INTO `Character` (characterId, accountId, characterFirstName, characterLa
          (8, 33, 'Shadow', 'Li'),
          (100, 1000, 'Golden', 'Kong'),
          (200, 90, 'Panda', 'Wang'),
-         (1000, 33, 'Tiger', 'Wang');
+         (1000, 33, 'Tiger', 'Wang'),
+         (10000, 100, 'Cat', 'Zhao'),
+         (100000, 100, 'Dog', 'Heath'),
+         (1000000, 100, 'Mouse', 'Adam'),
+         (10000000, 100, 'Cow', 'Wei'),
+         (100000000, 100, 'Red', 'Wang');
     
 -- Insert data into the table 'Job'
-INSERT INTO Job (jobName, jobLevel, MinLevelExp, MaxLevelExp) 
-  VALUES ('King', 1, 0, 2000),
-         ('King', 2, 2000, 5000),
-         ('Knight', 1, 0, 1000),
-         ('Civilian', 1, 0, 1000),
-         ('Civilian', 2, 1000, 5000),
-         ('Mage', 1, 0, 8000);
+INSERT INTO Job (jobId,jobName, jobLevel, MinLevelExp, MaxLevelExp) 
+  VALUES (1,'Warrior', 1, 0, 2000),
+         (2,'Warrior', 2, 2000, 5000),
+         (3,'Warrior', 3, 5000, 50000),
+         (4,'Archer', 1, 0, 1000),
+		 (5,'Archer', 2, 1000, 2000),
+         (6,'Archer', 3, 2000, 3000),
+         (7,'Machinist', 1, 0, 1000),
+         (8,'Machinist', 2, 1000, 5000),
+         (9,'Mage', 2, 0, 8000),
+         (10,'Mage', 3, 8000, 80000);
 
 -- Insert data into the table 'Currency'
 INSERT INTO Currency (currencyName, totalCap, weeklyCap, discontinued) 
@@ -319,6 +333,11 @@ INSERT INTO Currency (currencyName, totalCap, weeklyCap, discontinued)
          ('Silver', 2000000, 2000, FALSE),
          ('Bronze', 300000, 300, TRUE),
          ('Diamonds', 5000000, 100000, FALSE),
+         ('Copper', 150000, 1000, FALSE),
+         ('Ruby', 4000000, 80000, FALSE),
+		 ('Sapphire', 2500000, 30000, FALSE),
+		 ('Emerald', 1800000, 7000, FALSE),
+         ('Pearls', 120000, 500, TRUE),
          ('Platinum', 1000000, 50000, FALSE);
 
 -- Insert data into the table 'Attributesy'
@@ -328,20 +347,11 @@ INSERT INTO Attributes (attribute)
          ('dexterity'),
          ('vitality'),
          ('intelligence'),
-         ('mind'),
          ('criticalHit'),
 		 ('determination'),
-         ('directHitRate'),
          ('defense'),
          ('magicDefense'),
-         ('attackPower'),
-         ('SkillSpeed'),
-         ('attackMagicPotency'),
-         ('HealingMagicPotency'),
-         ('spellSpeed'),
-         ('averageItemLevel'),
-         ('tenacity'),
-         ('piety');
+         ('spellSpeed');
          
 -- Insert data into the table 'Attributesy'
 INSERT INTO Item (itemId,itemName,maxStackSize,vendorPrice,canbeSold)
@@ -364,92 +374,180 @@ INSERT INTO Item (itemId,itemName,maxStackSize,vendorPrice,canbeSold)
          (17, 'Cloak', 5, 115, TRUE),
          (18, 'Amulet',5,116,TRUE),
          (19, 'Leather Boots', 5, 117, TRUE),
-         (20, 'Helmet', 5, 118, TRUE);
+         (20, 'Helmet', 5, 118, TRUE),
+         (21, 'Shadowsteel Blade', 5, 119, TRUE),
+         (22, 'Arcane Wand', 5, 120, TRUE),
+         (23, 'Celestial Hammer', 5, 121, TRUE),
+		 (24, 'Serpent Dagger', 3, 0, FALSE),
+		 (25, 'Thundering Warstaff', 1, 500, TRUE),
+         (26, 'Frostbite Longbow', 10, 122, TRUE),
+		 (27, 'Magma-forged Greatsword', 1, 123, TRUE),
+		 (28, 'Moonshadow Archer', 1, 124, TRUE),
+         (29, 'Dragonfire Crossbow', 1, 0, FALSE),
+         (30, 'Soulrender Scythe', 5, 125, TRUE),
+         (31, 'Crown of Wisdom', 5, 126, TRUE),
+         (32, 'Helm of the Guardian', 5, 127, TRUE),
+		 (33, 'Veil of Shadows', 5, 128, TRUE),
+         (34, 'Gloves of the Assassin', 5, 129, TRUE),
+         (35, 'Gauntlets of Power', 5, 130, TRUE),
+		 (36, 'Mystic Robes', 5, 131, TRUE),
+         (37, 'Sentinel Plate Armor', 5, 132, TRUE),
+         (38, 'Warden Breastplate', 5, 133, TRUE),
+         (39, 'Boots of Fleet-footed', 1, 0, FALSE),
+         (40, 'Titan Sabatons', 1, 134, TRUE);
          
 -- Insert data into the table 'Consumable'
 INSERT INTO Consumable (itemId,itemLevel,description)
-  VALUE (1,1,'Restores 50 health points.'),
-        (2,3,'Replenishes 30 energy.'),
-        (3,2,'Increases movement speed.'),
-        (4,5,'Casts a fireball spell.'),
-        (5,1,'Makes you invisible.');
+  VALUE (1, 1, 'Restores 50 health points.'),
+        (2, 3, 'Replenishes 30 energy.'),
+        (3, 2, 'Increases movement speed.'),
+        (4, 5, 'Casts a fireball spell.'),
+        (5, 1, 'Makes you invisible.'),
+        (6, 2, 'Restores 75 health points.'),
+        (7, 4, 'Boosts energy regeneration.'),
+        (8, 3, 'Grants a temporary speed boost.'),
+        (9, 6, 'Unleashes a powerful fire spell.'),
+		(10, 2, 'Induces invisibility for a short duration.');
 
 -- Insert data into the table 'Miscellaneous'
 INSERT INTO Miscellaneous (itemId,description)
-  VALUE (6,'Leads to hidden riches.'),
-        (7,'Used to pick locks.'),
-        (8,'Grants good luck for a short time.'),
-        (9,'An artifact with unknown powers.'),
-        (10,'Enhances your magical abilities.');
+  VALUE (11, 'Leads to hidden riches.'),
+        (12, 'Used to pick locks.'),
+        (13, 'Grants good luck for a short time.'),
+        (14, 'An artifact with unknown powers.'),
+		(15, 'Enhances your magical abilities.'),
+        (16, 'Contains clues to hidden treasures.'),
+        (17, 'A set of high-quality lockpicking tools.'),
+        (18, 'Brings exceptional luck to the user.'),
+	    (19, 'A mysterious artifact with ancient powers.'),
+        (20, 'Amplifies magical prowess.');
         
 -- Insert data into the table 'ConsumableBonus'
 INSERT INTO ConsumableBonus (itemId,attribute,bonusPercentage,bonusCap)
-  VALUE (2,'SkillSpeed',8,100),
-		(3,'attackPower',10,100),
-        (2,'defense',10,100),
-        (3,'SkillSpeed',30,300),
-        (1,'tenacity',10,1000);
+  VALUE (2,'defense',8,100),
+		(3,'defense',10,100),
+        (2,'magicDefense',10,100),
+        (3,'magicDefense',30,300),
+        (1,'vitality',10,1000),
+        (5, 'vitality', 15, 1500),
+        (6, 'vitality', 12, 150),
+        (7, 'vitality', 15, 200),
+        (8, 'defense', 20, 250),
+        (9, 'defense', 40, 400);
 
 -- Insert sample data into table 'SlotTypes'
 INSERT INTO SlotTypes (slotType)
   VALUE ('Main hand'),
-		('head'),
-		('hands'),
-		('body'),
-		('feet');
+		('Head'),
+		('Hands'),
+		('Body'),
+		('Feet');
 
 -- Insert sample data into table 'Equippable'
-INSERT INTO Equippable (itemId,itemLevel,slotType,requiredJobLevel)
-  VALUE (11,1,'Main hand', 1),
-		(12,2,'hands',1),
-		(13,2,'hands',1),
-		(14,1,'Main hand',1),
-		(15,3,'Main hand',2),
-		(16,2,'body',1),
-		(17,1,'body',1),
-		(18,3,'hands',3),
-		(19,2,'feet',2),
-		(20,2,'head',2);
+INSERT INTO Equippable (itemId, itemLevel, slotType, requiredJobLevel)
+VALUES 
+  (21, 1, 'Main hand', 1),
+  (22, 2, 'Main hand', 1),
+  (23, 2, 'Main hand', 1),
+  (24, 1, 'Main hand', 1),
+  (25, 3, 'Main hand', 2),
+  (26, 2, 'Main hand', 1),
+  (27, 1, 'Main hand', 1),
+  (28, 3, 'Main hand', 2),
+  (29, 2, 'Main hand', 2),
+  (30, 2, 'Main hand', 2),
+  (31, 3, 'Head', 2),
+  (32, 2, 'Head', 1),
+  (33, 4, 'Head', 3),
+  (34, 3, 'Hands', 2),
+  (35, 4, 'Hands', 2),
+  (36, 2, 'Body', 1),
+  (37, 3, 'Body', 2),
+  (38, 4, 'Body', 2),
+  (39, 3, 'Feet', 2),
+  (40, 4, 'Feet', 2);
 
+
+  
 -- Insert sample data into table 'Weapon'
 INSERT INTO Weapon (itemId,damageDone,autoAttack,attackDelay,associatedJob)
-  VALUE (11,100,10,1,1),
-		(12,100,5,2,1),
-		(13,100,5,3,2),
-		(14,100,10,3,3),
-		(15,100,10,4,6);
+  VALUE (21, 100, 10, 1, 1),
+        (22, 100, 5, 2, 1),
+        (23, 100, 5, 3, 2),
+        (24, 100, 10, 3, 3),
+        (25, 100, 10, 4, 6),
+        (26, 120, 12, 1, 5),
+        (27, 150, 8, 2, 1),
+        (28, 180, 10, 2, 5),
+        (29, 130, 15, 3, 5),
+        (30, 200, 20, 4, 3);
 
 -- Insert sample data into table 'Gear'
 INSERT INTO Gear (itemId,defenseRating,magicDefenseRating)
-  VALUE (16,100,50),
-		(17,100,50),
-		(18,100,50),
-		(19,100,50),
-		(20,100,50);
-
+  VALUE (31, 100, 50),
+        (32, 100, 50),
+        (33, 100, 50),
+        (34, 100, 50),
+        (35, 100, 50),
+        (36, 120, 60),
+        (37, 130, 70),
+        (38, 140, 80),
+        (39, 110, 50),
+        (40, 150, 90);
+  
 -- Insert sample data into table 'EquippableBonus'
 INSERT INTO EquippableBonus (itemId,attribute,bonusValue)
-  VALUE (11, 'strength',10),
-		(12,'defense',100),
-		(11,'attackPower',50),
-		(12,'strength',100),
-		(16,'defense',100);
+  VALUE (26, 'strength', 15),
+	    (26, 'criticalHit', 120),
+        (26, 'intelligence', 80),
+        (28, 'strength', 30),
+	    (28, 'spellSpeed', 60),
+        (29, 'intelligence', 45),
+	    (29, 'determination', 90),
+        (36, 'magicDefense', 50),
+        (36, 'defense', 150),
+        (37, 'dexterity', 20),
+        (37, 'defense', 100),
+        (38, 'magicDefense', 120),
+        (38, 'vitality', 25),
+        (31, 'dexterity', 30),
+        (32, 'defense', 75),
+        (39, 'magicDefense', 60),
+        (40, 'vitality', 45);
         
 -- Insert sample data into table 'GearJob'
 INSERT INTO GearJob(itemId, jobId)
- VALUES (16,1),
-	    (17,1),
-	    (18,3),
-	    (19,5),
-	    (20,6);
+ VALUES (31, 5),
+        (32, 5),
+        (33, 4),
+        (34, 5),
+        (35, 5),
+        (36, 5),
+        (37, 5),
+        (38, 5),
+        (39, 5),
+        (40, 5);
  
--- Insert sample data into table 'CharacterAttribut'
+-- Insert sample data into table 'CharacterAttribute'
 INSERT INTO CharacterAttribute(characterId, attributeName,attributeValue)
   VALUES (1,'maxHP',100),
 		 (2,'strength',100),
          (4,'dexterity',10),
          (4,'vitality',50),
-         (8,'intelligence',10);
+         (8,'intelligence',10),
+         (100,'maxHP',1000),
+         (100,'strength',100),
+         (100,'dexterity',550),
+         (100,'vitality',120),
+         (100,'intelligence',200),
+         (100,'criticalHit',180),
+         (100,'determination',280),
+         (100,'defense',50),
+         (100,'magicDefense',90),
+         (100,'spellSpeed',80),
+		 (200,'strength',100),
+         (1000,'vitality',50),
+         (10000,'intelligence',10);
 
 -- Insert sample data into table 'Colors'
 INSERT INTO Colors(color)
@@ -457,40 +555,82 @@ INSERT INTO Colors(color)
 		 ('Blue'),
          ('Yellow'),
          ('Purple'),
-         ('Green');
+         ('Green'),
+         ('Orange'),
+         ('Pink'),
+         ('Brown'),
+         ('Gray'),
+         ('Black');
 
 -- Insert sample data into table 'Customization'
 INSERT INTO Customization(customizationId,itemId,dyeColor,isHighQuality,`condition`,madeBy)
-  VALUES (1,11,'Red','High',50,1),
-		 (2,12,'Blue','Normal',20,4),
-         (3,14,'Red','Normal',10,100),
-         (4,17,'Red','Normal',20,1),
-         (5,17,'Blue','High',20,1);
+  VALUES (1,21,'Red','High',0.5,1),
+		 (2,22,'Blue','Normal',0.2,4),
+         (3,24,'Red','Normal',0.1,100),
+         (4,27,'Red','Normal',0.2,1),
+         (5,27,'Blue','High',0.8,1),
+         (6,23,'Red','High',0.7,1),
+		 (7,25,'Blue','Normal',0.3,4),
+         (8,26,'Red','Normal',1,100),
+         (9,28,'Red','Normal',0.9,1000),
+         (10,31,'Red','High',0.4,1000),
+         (11,29,'Blue','High',0.5,1);
 
 
--- Insert sample data into table 'Inventory'
+-- Insert sample data into table 'Inventory' - with customizationId
 INSERT INTO Inventory (characterId, slotId, itemId, customizationId, quantity) 
-  VALUES (1, 1, 11, 1, 5),
-         (1, 2, 12, 1, 3),
-         (100, 3, 13, 2, 2),
-         (4, 4, 13, 3, 1),
-         (8, 5, 13, 1, 1);
+  VALUES (1, 1, 21, 1, 1),
+         (1, 2, 22, 2, 1),
+         (4, 4, 23, 6, 1),
+         (8, 5, 24, 3, 1),
+         (100, 52, 26, 8, 1),
+         (100, 3, 28, 9, 1),
+         (100, 8, 29, 11, 1),
+         (100, 17, 31, 10, 1),
+         (1000, 9, 25, 7, 1),
+         (1000, 5, 27, 4, 1);
+-- Insert sample data into table 'Inventory' - without customizationId   
+INSERT INTO Inventory (characterId, slotId, itemId, quantity) 
+  VALUES (100, 1, 1, 5),
+         (100, 2, 5, 9),
+         (100, 9, 3, 6),
+         (100, 32, 34, 1),
+         (100, 154, 32, 1),
+         (100, 39, 36, 1),
+         (100, 62, 37, 1),
+         (100, 77, 38, 1),
+         (100, 101, 39, 1),
+         (100, 128, 40, 1);
+         
+         
          
 -- Insert sample data into table 'CharacterSlot'
 INSERT INTO CharacterSlot (characterId, slotType, equippedItem, customization) 
-  VALUES (1, 'Main hand', 11, 1),
-         (2, 'hands', 12, NULL),
-         (4, 'feet', 19, NULL),
-         (1, 'hands', 17, 4),
-         (100, 'head', 20, NULL);
+  VALUES (1, 'Main hand', 21, 1),
+         (2, 'Main hand', 22, 2),
+         (4, 'Main hand', 23, 6),
+         (100, 'Head', 31, 10),
+         (100, 'Main hand', 26, 8),
+         (100, 'Hands', 34, NULL),
+         (100, 'Body', 37, NULL),
+         (100, 'Feet', 39, NULL),
+         (200, 'Main hand', 22, NULL),
+         (1000, 'Head', 33, NULL),
+         (10000, 'Hands', 35, NULL);
 	
 -- Insert sample data into table 'CharacterJob'
 INSERT INTO CharacterJob (characterId, jobId, currentExp, isUnlocked, isCurrentJob ) 
   VALUES (1, 1, 100,TRUE, TRUE),
          (2, 1, 100,TRUE, TRUE),
          (4, 4, 100,TRUE, TRUE),
-         (1, 4, 100,FALSE, FALSE),
-         (4, 3, 100,FALSE, FALSE);
+         (10000, 4, 100,FALSE, FALSE),
+         (100000, 3, 100,FALSE, FALSE),
+         (100, 5, 1500,TRUE, TRUE),
+         (100, 9, 4999,TRUE, FALSE),
+         (8, 6, 100,FALSE, FALSE),
+         (1000, 7, 100,TRUE, TRUE),
+         (1000000, 7, 100,FALSE, FALSE),
+         (200, 7, 100,FALSE, FALSE);
          
 -- Insert sample data into table 'CharacterCurrency'
 INSERT INTO CharacterCurrency (characterId, currencyName, amountOwned, weeklyAmountOwned) 
@@ -498,5 +638,10 @@ INSERT INTO CharacterCurrency (characterId, currencyName, amountOwned, weeklyAmo
          (2, 'Gold', 2000, 500),
          (1, 'Bronze', 3000, 500),
          (2, 'Bronze', 3000, 500),
-         (4, 'Gold', 1000, 0);
+         (4, 'Gold', 1000, 0),
+         (100, 'Gold', 1000, 500),
+         (200, 'Gold', 2000, 500),
+         (100, 'Bronze', 3000, 500),
+         (1000, 'Bronze', 3000, 500),
+         (1000, 'Gold', 1000, 0);
    

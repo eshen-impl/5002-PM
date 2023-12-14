@@ -38,7 +38,7 @@ public class EquippableBonusDao {
 			insertStmt = connection.prepareStatement(insertEquippableBonus);
 			insertStmt.setInt(1, equippableBonus.getItemID().getItemId());
 			insertStmt.setString(2, equippableBonus.getAttribute());
-			insertStmt.setDouble(3, equippableBonus.getBonusValue());
+			insertStmt.setInt(3, equippableBonus.getBonusValue());
 			insertStmt.executeUpdate();
 			
 			return equippableBonus;
@@ -79,7 +79,7 @@ public class EquippableBonusDao {
 			if(results.next()) {
 				Integer resultitemID = results.getInt("itemID");
 				String resultattribute = results.getString("attribute");
-                Double bonusValue = results.getDouble("bonusValue");
+				Integer bonusValue = results.getInt("bonusValue");
 				
                 Item fetchedItem = itemDao.getItemById(resultitemID);
                 
@@ -126,7 +126,7 @@ public class EquippableBonusDao {
 			while(results.next()) {
 				Integer resultitemID = results.getInt("itemID");
 				String resultattribute = results.getString("attribute");
-                Double bonusValue = results.getDouble("bonusValue");
+				Integer bonusValue = results.getInt("bonusValue");
 				
                 Item fetchedItem = itemDao.getItemById(resultitemID);
 				
