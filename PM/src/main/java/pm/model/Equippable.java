@@ -59,5 +59,12 @@ public class Equippable extends Item {
 
 	public void setRequiredJobLevel(Integer requiredJobLevel) {
 		this.requiredJobLevel = requiredJobLevel;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Equippable [slotType=" + slotType + ", itemId=" + itemId + ", itemName=" + itemName + "]";
+	}
+	
+	
 }

@@ -9,6 +9,11 @@ public CharacterAttribute(Character character, String attributes, int attributeV
 	this.attributes = attributes;
 	this.attributeValue = attributeValue;
 }
+
+public CharacterAttribute(Character character) {
+	this.character = character;
+}
+
 public Character getCharacter() {
 	return character;
 }

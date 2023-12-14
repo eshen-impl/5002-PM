@@ -13,24 +13,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome</title>
-<style>
-	body {
-		text-align: center;
-	}
-    table {
-        border-collapse: collapse;
-        border: 1px solid black;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-    }
-    button {
-    	margin: 10px;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="default.css">
+
 </head>
 <body>
 	<h1>5200-PM-Group9</h1>

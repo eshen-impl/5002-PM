@@ -4,11 +4,11 @@ package pm.model;
 public class EquippableBonus {
 	protected Item itemID;
 	protected String attribute;
-	protected double bonusValue;
+	protected int bonusValue;
 
 
 
-	public EquippableBonus(Item itemID, String attribute, double bonusValue) {
+	public EquippableBonus(Item itemID, String attribute, int bonusValue) {
 		this.itemID = itemID;
 		this.attribute = attribute;
 		this.bonusValue = bonusValue;
@@ -27,7 +27,7 @@ public class EquippableBonus {
 		this.attribute = attribute;
 	}
 
-	public EquippableBonus(double bonusValue) {
+	public EquippableBonus(int bonusValue) {
 		this.bonusValue = bonusValue;
 	}
 
@@ -48,11 +48,11 @@ public class EquippableBonus {
 		this.attribute = attribute;
 	}
 
-	public double getBonusValue() {
+	public int getBonusValue() {
 		return bonusValue;
 	}
 
-	public void setBonusValue(double bonusValue) {
+	public void setBonusValue(int bonusValue) {
 		this.bonusValue = bonusValue;
 	}		
 }

@@ -101,6 +101,43 @@ public class CharacterSlotDao {
 
         return result;
     }
+    
+    public CharacterSlot getCharacterSlotByCharacterIdandSlotType(int characterId, String slot) throws SQLException {
+        
+        String selectQuery = "SELECT * FROM CharacterSlot WHERE characterId = ? and slotType = ?";
+    	Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectQuery);
+			selectStmt.setInt(1, characterId);
+			selectStmt.setString(2, slot);
+			results = selectStmt.executeQuery();
+			if(results.next()) {
+				CharacterSlot characterSlot = mapResultSetToCharacterSlot(results);
+				return characterSlot;
+			}
+			
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}		
+
+		return null;
+    }
 
     // Method for updating an attribute for a single record
     public CharacterSlot updateEquippedItem(CharacterSlot characterSlot, Equippable newEquippedItem) throws SQLException {
@@ -167,11 +204,18 @@ public class CharacterSlotDao {
         
         CharacterDao characterDao = CharacterDao.getInstance();
         CustomizationDao customizationDao = CustomizationDao.getInstance();
-        EquippableDao equippableDao = EquippableDao.getInstance();
+        WeaponDao weaponDao = WeaponDao.getInstance();
+        GearDao gearDao = GearDao.getInstance();
         
         characterSlot.setCharacter(characterDao.getCharacterById(resultSet.getInt("characterId")));
-        characterSlot.setSlotType(resultSet.getString("slotType"));
-        characterSlot.setEquippedItem(equippableDao.getEquippableByItemID(resultSet.getInt("equippedItem")));
+        String slotType = resultSet.getString("slotType");
+        characterSlot.setSlotType(slotType);
+        if (slotType.equals("Main hand")) {
+        	characterSlot.setEquippedItem(weaponDao.getWeaponByItemID(resultSet.getInt("equippedItem")));
+        } else {
+        	characterSlot.setEquippedItem(gearDao.getGearByItemID(resultSet.getInt("equippedItem")));
+        }
+        
         characterSlot.setCustomization(customizationDao.getCustomizationById(resultSet.getInt("customization")));
         return characterSlot;
 
