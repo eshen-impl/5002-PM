@@ -15,8 +15,12 @@
 <h1>Update Amount Owned</h1>
 <form action="amountownedupdate" method="post">
     <p>
-        <label for="charactercurrency">Character Currency</label>
-        <input id="charactercurrency" name="charactercurrency" value="${fn:escapeXml(param.charactercurrency)}">
+        <label for="characterid">Character ID</label>
+        <input id="characterid" name="characterid" value="${fn:escapeXml(param.characterid)}">
+    </p>
+    <p>
+        <label for="currencyname">Currency Name</label>
+        <input id="currencyname" name="currencyname" value="${fn:escapeXml(param.currencyname)}">
     </p>
     <p>
         <label for="amountowned">New Amount Owned</label>
