@@ -2,10 +2,10 @@ package pm.model;
 import java.util.Objects;
 
 public class Inventory {
-    private Character character;
+    private Character characterId;
     private int slotId;
     private Customization customization;
-    private Item item;
+    private Item itemId;
     private int quantity;
 
     // Constructors
@@ -13,21 +13,21 @@ public class Inventory {
     public Inventory() {
     }
 
-	public Inventory(Character character, int slotId, Customization customization, Item item, int quantity) {
+	public Inventory(Character characterId, int slotId, Customization customization, Item itemId, int quantity) {
 
-		this.character = character;
+		this.characterId = characterId;
 		this.slotId = slotId;
 		this.customization = customization;
-		this.item = item;
+		this.itemId = itemId;
 		this.quantity = quantity;
 	}
 
 	public Character getCharacter() {
-		return character;
+		return characterId;
 	}
 
-	public void setCharacter(Character character) {
-		this.character = character;
+	public void setCharacter(Character characterId) {
+		this.characterId = characterId;
 	}
 
 	public int getSlotId() {
@@ -47,11 +47,11 @@ public class Inventory {
 	}
 
 	public Item getItem() {
-		return item;
+		return itemId;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setItem(Item itemId) {
+		this.itemId = itemId;
 	}
 
 	public int getQuantity() {
@@ -64,8 +64,8 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "Inventory [character=" + character + ", slotId=" + slotId + ", customization=" + customization
-				+ ", item=" + item + ", quantity=" + quantity + "]";
+		return "Inventory [character=" + characterId + ", slotId=" + slotId + ", customization=" + customization
+				+ ", item=" + itemId + ", quantity=" + quantity + "]";
 	}
 
   

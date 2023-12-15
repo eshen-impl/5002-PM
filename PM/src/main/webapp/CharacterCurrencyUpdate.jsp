@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="default.css">
 </head>
 <body>
-<h1>${messages.title}</h1>
+<h1>Update Currency</h1>
 <form action="charactercurrencyupdate" method="post">
     <p>
 

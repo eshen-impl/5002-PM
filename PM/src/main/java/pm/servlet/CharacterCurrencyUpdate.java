@@ -82,23 +82,32 @@ public class CharacterCurrencyUpdate extends HttpServlet{
                     messages.put("success", "Character ID or currency name does not exist. No update to perform.");
                 } else {
                     String newAmountOwned = req.getParameter("amountowned");
+                    
+
                     if (newAmountOwned == null || newAmountOwned.trim().isEmpty()) {
                         messages.put("success", "Please enter a valid new amount.");
                     } else {
                     	int newAmount = Integer.parseInt(newAmountOwned);
+                        if (newAmount < 0) {
+                            throw new IllegalArgumentException("Quantity cannot be negative.");
+                        }
                         characterCurrency = characterCurrencyDao.updateAmountOwned(characterCurrency, newAmount);
                         messages.put("success", "Successfully updated " + currencyName);
                     }
                 }
                 req.setAttribute("characterCurrency", characterCurrency);
-                resp.sendRedirect(req.getContextPath() + "/charactercurrency?characterId=" + characterId);
+               
+
             } catch (NumberFormatException e) {
-                messages.put("success", "Invalid character ID format.");
+                messages.put("success", "Invalid character ID format or amount owned");
+            } catch (IllegalArgumentException e) {
+                messages.put("success", "Invalid input: " + e.getMessage());
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new IOException(e);
             }
         }
+        req.getRequestDispatcher("/CharacterCurrencyUpdate.jsp").forward(req, resp);
         
         
     }
