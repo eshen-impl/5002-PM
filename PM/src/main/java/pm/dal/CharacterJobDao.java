@@ -128,6 +128,35 @@ public class CharacterJobDao {
 		}
         
     }
+    
+    public void updateJob(CharacterJob characterJob, Integer newjobId) throws SQLException {
+        String updateQuery = "UPDATE CharacterJob SET jobId = ? WHERE characterId = ? AND jobId = ?";
+
+        
+        Connection connection = null;
+		PreparedStatement pstmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			 pstmt = connection.prepareStatement(updateQuery);
+	            pstmt.setInt(1, newjobId);
+	            pstmt.setInt(2, characterJob.getCharacter().getCharacterId());
+	            pstmt.setInt(3, characterJob.getJob().getJobId());
+            pstmt.executeUpdate();
+
+			return;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+		}
+        
+    }
 
     // Method for deleting a record
     public void delete(CharacterJob characterJob) throws SQLException {

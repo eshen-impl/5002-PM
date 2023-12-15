@@ -3,6 +3,7 @@ package pm.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import pm.dal.*;
@@ -21,10 +22,12 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/expupdate")
 public class ExpUpdate extends HttpServlet {
 	protected CharacterJobDao characterJobDao;
+	protected JobDao jobDao;
 	protected int id;
 	@Override
 	public void init() throws ServletException {
 		characterJobDao = CharacterJobDao.getInstance();
+		jobDao = JobDao.getInstance();
 	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -75,6 +78,7 @@ public class ExpUpdate extends HttpServlet {
 		        long newExp = Long.parseLong(newExpStr);
 		        
 	            if (newExp < 0) {
+	            	
 	                throw new NumberFormatException("New Exp cannot be negative.");
 	            }
 		        HttpSession session = request.getSession();
@@ -84,7 +88,25 @@ public class ExpUpdate extends HttpServlet {
 		      
 	
 		        CharacterJob characterJob = characterJobDao.getCharacterJobByCharacterIdAndJobId(characterId, id);
+
 		        characterJobDao.updateCurrentExp(characterJob, newExp); 
+		        request.setAttribute("latestExp", newExp);
+		        List<Job> jobs = jobDao.getJobByName(characterJob.getJob().getJobName());
+		        
+		        for (Job job : jobs) {
+		        	long minExp = job.getMinLevelExp();
+		        	long maxExp = job.getMaxLevelExp();
+		        	if (newExp>=minExp && newExp<maxExp ) {
+		        		int newJobId = job.getJobId();
+		        		if (newJobId!=characterJob.getJob().getJobId()) {
+		        			characterJobDao.updateJob(characterJob, newJobId);
+		        			id = newJobId;
+		        			messages.put("level", "LevelUp: " + job.getJobLevel());
+		        		}
+		        	}
+		        }
+		        
+		        
 		        messages.put("success", "Successfully updated Exp for Character ID: " + characterId + " and Job ID: " + id);
 			}
 	    } catch (IllegalArgumentException e) {
