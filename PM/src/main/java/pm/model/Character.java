@@ -1,7 +1,7 @@
 package pm.model;
 
 
-public class Character {
+public class Character implements Comparable<Character>{
 	protected Integer characterId;
 	protected Player account;
 	protected String characterFirstName;
@@ -62,6 +62,12 @@ public class Character {
 		return "Character [characterId=" + characterId + ", account=" + account + ", characterFirstName="
 				+ characterFirstName + ", characterLastName=" + characterLastName + "]";
 	}
+	
+    @Override
+    public int compareTo(Character otherCharacter) {
+        // Assuming getFirstName returns a String
+        return characterFirstName.compareTo(otherCharacter.characterFirstName);
+    }
 
 	
 	
