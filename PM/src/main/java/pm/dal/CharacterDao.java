@@ -119,7 +119,47 @@ public class CharacterDao {
 		}
 		return null;
 	}
-
+	
+	
+	public List<Character> getCharactersbyFirstName(String firstName) throws SQLException {
+		List<Character> characters = new ArrayList<Character>();
+		String select =
+			"SELECT characterId, accountId, characterFirstName, characterLastName FROM `Character` WHERE characterFirstName LIKE ?;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(select);
+			selectStmt.setString(1, "%" + firstName + "%");
+			results = selectStmt.executeQuery();
+			PlayerDao playerDao = PlayerDao.getInstance();
+			while(results.next()) {
+				int characterId = results.getInt("characterId");
+				String characterFirstName = results.getString("characterFirstName");
+				String characterLastName = results.getString("characterLastName");
+				Integer accountId = results.getInt("accountId");
+				
+				Player player = playerDao.getPlayerByID(accountId);
+				Character character = new Character(characterId, player, characterFirstName, characterLastName);
+				characters.add(character);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return characters;
+	}
 
 	public List<Character> getCharactersForPlayer(Player player) throws SQLException {
 		List<Character> characters = new ArrayList<Character>();
