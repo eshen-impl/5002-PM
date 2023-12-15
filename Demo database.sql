@@ -301,9 +301,9 @@ INSERT INTO Player (accountId, `name`, emailAddress, isActive)
     
 -- Insert data into the table 'Character'
 INSERT INTO `Character` (characterId, accountId, characterFirstName, characterLastName) 
-  VALUES (1,	33, 'Dragon', 'Li'),
+  VALUES (1,	33, 'old', 'Li'),
          (2,	1, 'Fury', 'Zhang'),
-         (4, 90, 'Iron', 'Chen'),
+         (4, 90, 'goldy', 'Chen'),
          (8, 33, 'Shadow', 'Li'),
          (100, 1000, 'Golden', 'Kong'),
          (200, 90, 'Panda', 'Wang'),
@@ -325,7 +325,15 @@ INSERT INTO Job (jobId,jobName, jobLevel, MinLevelExp, MaxLevelExp)
          (7,'Machinist', 1, 0, 1000),
          (8,'Machinist', 2, 1000, 5000),
          (9,'Mage', 2, 0, 8000),
-         (10,'Mage', 3, 8000, 80000);
+         (10,'Mage', 3, 8000, 80000),
+         (11, 'Warrior', 4, 50000, 100000),
+		(12, 'Warrior', 5, 100000, 150000),
+		(13, 'Archer', 4, 3000, 6000),
+		(14, 'Archer', 5, 6000, 10000),
+		(15, 'Machinist', 3, 5000, 10000),
+		(16, 'Machinist', 4, 10000, 15000),
+		(17, 'Mage', 4, 80000, 120000),
+		(18, 'Mage', 5, 120000, 160000);
 
 -- Insert data into the table 'Currency'
 INSERT INTO Currency (currencyName, totalCap, weeklyCap, discontinued) 
@@ -497,7 +505,12 @@ INSERT INTO Gear (itemId,defenseRating,magicDefenseRating)
   
 -- Insert sample data into table 'EquippableBonus'
 INSERT INTO EquippableBonus (itemId,attribute,bonusValue)
-  VALUE (26, 'strength', 15),
+  VALUE 
+		(21, 'strength', 65),
+	    (22, 'criticalHit', 90),
+        (23, 'determination', 70),
+		(25, 'intelligence', 40),
+		(26, 'strength', 15),
 	    (26, 'criticalHit', 120),
         (26, 'intelligence', 80),
         (28, 'strength', 30),
@@ -530,10 +543,27 @@ INSERT INTO GearJob(itemId, jobId)
  
 -- Insert sample data into table 'CharacterAttribute'
 INSERT INTO CharacterAttribute(characterId, attributeName,attributeValue)
-  VALUES (1,'maxHP',100),
+  VALUES (1,'maxHP',1200),
+         (1,'strength',140),
+         (1,'dexterity',590),
+         (1,'vitality',780),
+         (1,'intelligence',400),
+         (1,'criticalHit',450),
+         (1,'determination',320),
+         (1,'defense',330),
+         (1,'magicDefense',200),
+         (1,'spellSpeed',80),
 		 (2,'strength',100),
-         (4,'dexterity',10),
-         (4,'vitality',50),
+         (4,'maxHP',1200),
+         (4,'strength',140),
+         (4,'dexterity',590),
+         (4,'vitality',780),
+         (4,'intelligence',400),
+         (4,'criticalHit',450),
+         (4,'determination',320),
+         (4,'defense',330),
+         (4,'magicDefense',200),
+         (4,'spellSpeed',520),
          (8,'intelligence',10),
          (100,'maxHP',1000),
          (100,'strength',100),
@@ -600,7 +630,12 @@ INSERT INTO Inventory (characterId, slotId, itemId, quantity)
          (100, 62, 37, 1),
          (100, 77, 38, 1),
          (100, 101, 39, 1),
-         (100, 128, 40, 1);
+         (100, 128, 40, 1),
+         (1, 100, 25, 1),
+         (1, 200, 26, 1),
+         (4, 100, 26, 1),
+         (4, 200, 28, 1),
+         (4, 201, 29, 1);
          
          
          
