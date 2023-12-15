@@ -34,10 +34,10 @@ public class CharacterCurrency extends HttpServlet {
 
         // Retrieve and validate characterId.
         String characterIdParam = req.getParameter("characterid");
-        if ((characterId == null) || characterId.trim().isEmpty()) {
+        if ((characterIdParam == null) || characterIdParam.trim().isEmpty()) {
             messages.put("title", "Invalid character ID.");
         } else {
-            messages.put("title", "Currencies for " + characterId);
+            messages.put("title", "Currencies for " + characterIdParam);
         }
 
         // Retrieve Character, and store in the request.
