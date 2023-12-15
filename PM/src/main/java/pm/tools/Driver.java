@@ -52,7 +52,7 @@ public class Driver {
 		for (Item i: items) {
 			System.out.format("items with maxStackSize=10: name:%s mss:%s vp:%s cbs:%s \n",
 					i.getItemName(),i.getMaxStackSize(),i.getVendorPrice(), i.getCanBeSold());
-		};
+		}
 
 		// test ConsumableDao
 		Consumable consumable1 = new Consumable("consumable1", 5, 50, true, 1, "Test Description");
