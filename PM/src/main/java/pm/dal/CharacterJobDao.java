@@ -156,6 +156,41 @@ public class CharacterJobDao {
 		}
         
     }
+ // Method for fetching a single CharacterJob record based on characterId and jobId
+    public CharacterJob getCharacterJobByCharacterIdAndJobId(int characterId, int jobId) throws SQLException {
+        String selectQuery = "SELECT * FROM CharacterJob WHERE characterId = ? AND jobId = ?";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectQuery);
+            selectStmt.setInt(1, characterId);
+            selectStmt.setInt(2, jobId);
+            results = selectStmt.executeQuery();
+
+            if (results.next()) {
+                return mapResultSetToCharacterJob(results);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (results != null) {
+                results.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return null; // 当找不到对应的CharacterJob时返回null
+    }
+
 
     // Helper method to map ResultSet to CharacterJob object
     private CharacterJob mapResultSetToCharacterJob(ResultSet resultSet) throws SQLException {
