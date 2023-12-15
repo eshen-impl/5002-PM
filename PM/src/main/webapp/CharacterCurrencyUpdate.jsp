@@ -10,17 +10,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Update Amount Owned
     </title>
+    <link rel="stylesheet" type="text/css" href="default.css">
 </head>
 <body>
-<h1>Update Amount Owned</h1>
-<form action="amountownedupdate" method="post">
+<h1>${messages.title}</h1>
+<form action="charactercurrencyupdate" method="post">
     <p>
-        <label for="characterid">Character ID</label>
-        <input id="characterid" name="characterid" value="${fn:escapeXml(param.characterid)}">
+
+        <input type="hidden" id="characterid" name="characterId" value="${fn:escapeXml(param.characterId)}" readonly>
     </p>
     <p>
         <label for="currencyname">Currency Name</label>
-        <input id="currencyname" name="currencyname" value="${fn:escapeXml(param.currencyname)}">
+        <input id="currencyname" name="currencyName" value="${fn:escapeXml(param.currencyName)}" readonly>
     </p>
     <p>
         <label for="amountowned">New Amount Owned</label>

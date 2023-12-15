@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/charactercurrency")
-public class CharacterCurrency extends HttpServlet {
+public class CharacterCurrencyView extends HttpServlet {
     protected CharacterCurrencyDao characterCurrencyDao;
+    protected CharacterDao characterDao;
 
     @Override
     public void init() throws ServletException {
         characterCurrencyDao = CharacterCurrencyDao.getInstance();
+        characterDao = CharacterDao.getInstance();
     }
 
     @Override
@@ -31,24 +33,26 @@ public class CharacterCurrency extends HttpServlet {
         // Map for storing messages.
         Map<String, String> messages = new HashMap<String, String>();
         req.setAttribute("messages", messages);
-
+        List<CharacterCurrency> characterCurrencies = new ArrayList<>();
         // Retrieve and validate characterId.
-        String characterIdParam = req.getParameter("characterid");
+        String characterIdParam = req.getParameter("characterId");
         if ((characterIdParam == null) || characterIdParam.trim().isEmpty()) {
             messages.put("title", "Invalid character ID.");
         } else {
-            messages.put("title", "Currencies for " + characterIdParam);
+
+            try {
+            	int characterId = Integer.parseInt(characterIdParam);
+                messages.put("title", "Currencies for " + characterDao.getCharacterById(characterId).getCharacterFirstName() + " " + characterDao.getCharacterById(characterId).getCharacterLastName());
+                // Retrieve Character, and store in the request.
+
+                characterCurrencies = characterCurrencyDao.getCharacterCurrenciesByCharacterId(characterId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new IOException(e);
+            }
         }
 
-        // Retrieve Character, and store in the request.
-        List<CharacterCurrency> characterCurrencies = new ArrayList<>();
-        try {
-            int characterId = Integer.parseInt(characterIdParam);
-            characterCurrencies = characterCurrencyDao.getCharacterCurrenciesByCharacterId(characterId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IOException(e);
-        }
+
         req.setAttribute(
                 "characterCurrencies", characterCurrencies);
         req.getRequestDispatcher("/CharacterCurrency.jsp").forward(req, resp);

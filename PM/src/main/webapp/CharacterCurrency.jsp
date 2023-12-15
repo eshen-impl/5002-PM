@@ -9,6 +9,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title>Character Currencies</title>
+  <link rel="stylesheet" type="text/css" href="default.css">
 </head>
 <body>
 <h1>${messages.title}</h1>
@@ -25,14 +26,15 @@
     <tr>
       <td><c:out value="${characterCurrency.getCharacter().getCharacterFirstName()}" /></td>
       <td><c:out value="${characterCurrency.getCharacter().getCharacterLastName()}" /></td>
-      <td><c:out value="${characterCurrency.getCurrency.getCurrencyName()}" /></td>
+      <td><c:out value="${characterCurrency.getCurrency().getCurrencyName()}" /></td>
       <td><c:out value="${characterCurrency.getAmountOwned()}" /></td>
-      <td><c:out value="${characterCurrency.getWeeklyAmountOwned}" /></td>
-      <td><a href="updateamountowned?characterid=<c:out value="${characterCurrency.getCharacter().getCharacterId}"/>&currencyname=<c:out value="${characterCurrency.getCurrency.getCurrencyName()}"/>">Update Amount Owned</a></td>
+      <td><c:out value="${characterCurrency.getWeeklyAmountOwned()}" /></td>
+      <td><a href="charactercurrencyupdate?characterId=<c:out value="${characterCurrency.getCharacter().getCharacterId()}"/>&currencyName=<c:out value="${characterCurrency.getCurrency().getCurrencyName()}"/>">Update Amount Owned</a></td>
 
     </tr>
   </c:forEach>
 </table>
+
 </body>
 </html>
 

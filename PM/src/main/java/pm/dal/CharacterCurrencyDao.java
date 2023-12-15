@@ -93,6 +93,43 @@ public class CharacterCurrencyDao {
 		}		
         return result;
     }
+    
+public CharacterCurrency getCharacterCurrencyByCharacterIdAndCurrencyName(int characterId, String currencyName) throws SQLException {
+        
+        String selectQuery = "SELECT * FROM CharacterCurrency WHERE characterId = ? and currencyName = ?";
+    	Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectQuery);
+			selectStmt.setInt(1, characterId);
+			selectStmt.setString(2, currencyName);
+			results = selectStmt.executeQuery();
+			if(results.next()) {
+				CharacterCurrency characterCurrency = mapResultSetToCharacterCurrency(results);
+				return characterCurrency;
+			}
+			
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}		
+
+		return null;
+    }
 
     // Method for updating an attribute for a single record
     public CharacterCurrency updateAmountOwned(CharacterCurrency characterCurrency, int newAmount) throws SQLException {
