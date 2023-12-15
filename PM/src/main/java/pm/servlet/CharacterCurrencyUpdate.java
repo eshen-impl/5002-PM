@@ -16,10 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/charactercurrencyupdate")
 public class CharacterCurrencyUpdate extends HttpServlet{
     protected CharacterCurrencyDao characterCurrencyDao;
-
+    protected CharacterDao characterDao;
     @Override
     public void init() throws ServletException {
         characterCurrencyDao = CharacterCurrencyDao.getInstance();
+        characterDao = CharacterDao.getInstance();
     }
 
     @Override
@@ -30,8 +31,8 @@ public class CharacterCurrencyUpdate extends HttpServlet{
         req.setAttribute("messages", messages);
 
 
-        String characterIdParam = req.getParameter("characterid");
-        String currencyName = req.getParameter("currencyname");
+        String characterIdParam = req.getParameter("characterId");
+        String currencyName = req.getParameter("currencyName");
 
         if (characterIdParam == null || characterIdParam.trim().isEmpty() || currencyName == null || currencyName.trim().isEmpty()) {
             messages.put("success", "Please enter valid character ID and currency name.");
@@ -40,6 +41,9 @@ public class CharacterCurrencyUpdate extends HttpServlet{
                 int characterId = Integer.parseInt(characterIdParam);
                 CharacterCurrency characterCurrency = characterCurrencyDao.getCharacterCurrencyByCharacterIdAndCurrencyName(characterId, currencyName);
 
+                messages.put("title", "Update Currencies for " + characterDao.getCharacterById(characterId).getCharacterFirstName() + " " + characterDao.getCharacterById(characterId).getCharacterLastName());
+                
+                
                 if (characterCurrency == null) {
                     messages.put("success", "Character ID or currency name does not exist.");
                 }
@@ -64,27 +68,30 @@ public class CharacterCurrencyUpdate extends HttpServlet{
         req.setAttribute("messages", messages);
 
 
-        String characterIdParam = req.getParameter("characterid");
-        String currencyName = req.getParameter("currencyname");
+        String characterIdParam = req.getParameter("characterId");
+        String currencyName = req.getParameter("currencyName");
+        int characterId;
 
         if (characterIdParam == null || characterIdParam.trim().isEmpty() || currencyName == null || currencyName.trim().isEmpty()) {
             messages.put("success", "Please enter valid character ID and currency name.");
         } else {
             try {
-                int characterId = Integer.parseInt(characterIdParam);
+                characterId = Integer.parseInt(characterIdParam);
                 CharacterCurrency characterCurrency = characterCurrencyDao.getCharacterCurrencyByCharacterIdAndCurrencyName(characterId, currencyName);
                 if (characterCurrency == null) {
                     messages.put("success", "Character ID or currency name does not exist. No update to perform.");
                 } else {
                     String newAmountOwned = req.getParameter("amountowned");
                     if (newAmountOwned == null || newAmountOwned.trim().isEmpty()) {
-                        messages.put("success", "Please enter a valid LastName.");
+                        messages.put("success", "Please enter a valid new amount.");
                     } else {
-                        characterCurrency = characterCurrencyDao.updateAmountOwned(characterCurrency, newAmountOwned);
+                    	int newAmount = Integer.parseInt(newAmountOwned);
+                        characterCurrency = characterCurrencyDao.updateAmountOwned(characterCurrency, newAmount);
                         messages.put("success", "Successfully updated " + currencyName);
                     }
                 }
                 req.setAttribute("characterCurrency", characterCurrency);
+                resp.sendRedirect(req.getContextPath() + "/charactercurrency?characterId=" + characterId);
             } catch (NumberFormatException e) {
                 messages.put("success", "Invalid character ID format.");
             } catch (SQLException e) {
@@ -92,7 +99,7 @@ public class CharacterCurrencyUpdate extends HttpServlet{
                 throw new IOException(e);
             }
         }
-
-        req.getRequestDispatcher("/CharacterCurrencyUpdate.jsp").forward(req, resp);
+        
+        
     }
 }
