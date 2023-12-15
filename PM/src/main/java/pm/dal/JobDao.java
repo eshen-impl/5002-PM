@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -114,7 +116,49 @@ public class JobDao {
 
 
 	
-	
+	public List<Job> getJobByName(String jobName)  throws SQLException {
+        List<Job> result = new ArrayList<>();
+        String selectQuery = "SELECT jobId, jobName, jobLevel, MinLevelExp, MaxLevelExp " +
+    			"FROM Job WHERE jobName=?;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectQuery);
+			selectStmt.setString(1, jobName);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int resultJobID = results.getInt("jobID");
+				String resultJobName = results.getString("jobName");
+				int jobLevel = results.getInt("jobLevel");
+				int MinLevelExp = results.getInt("MinLevelExp");
+				int MaxLevelExp = results.getInt("MaxLevelExp");
+		
+		
+				
+				Job job = new Job(resultJobID, resultJobName, jobLevel, MinLevelExp, MaxLevelExp);
+                result.add(job);
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}		
+
+        return result;
+    }
 	
 	
 }

@@ -26,7 +26,7 @@
 		</p>
 		<p>
 			<label for="currentexp">CurrentExp</label>
-			<input id="currentexp" name="currentExp" value="${fn:escapeXml(param.currentExp)}"readonly>
+			<input id="currentexp" name="currentExp" value="${latestExp!= null ? latestExp: (fn:escapeXml(param.currentExp))}"readonly>
 
 		</p>
 		<p>
@@ -38,6 +38,8 @@
 		</p>
 		<p>
 		<span id="successMessage"><b>${messages.success}</b></span>
+		<br><br>
+		<span id="level"><b>${messages.level}</b></span>
 	</p>
 	</form>
 	<br/><br/>
